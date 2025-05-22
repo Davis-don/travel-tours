@@ -23,8 +23,8 @@ function Sidebar() {
       
       <ul className="sidebar-nav">
         {navItems.map((item, index) => (
-          <li className="nav-item" key={index}>
-            <a href={item.path} className="nav-link-header">
+          <li className="nav-item-sidebar" key={index}>
+            <a href={item.path} className="nav-link-sidebar">
               {item.icon}
               {item.name}
             </a>

@@ -126,9 +126,11 @@
       font-size: 1.6rem;
     }
     
-    .nav-link {
+    .nav-link-sidebar {
       padding: 0.9rem 1.25rem;
-      font-size: 1rem;
+      font-size: 1.6rem;
+      color: white;
+      text-decoration: none;
     }
   }
   
@@ -145,6 +147,13 @@
       margin: 2rem 1.25rem 0;
       padding: 0.9rem;
       font-size: 1rem;
+    }
+    .nav-link-sidebar {
+      padding: 0.9rem 1.25rem;
+      font-size: 1.6rem;
+      color: white;
+      text-decoration: none;
+
     }
   }
   
@@ -170,9 +179,12 @@
       max-width: 300px;
     }
     
-    .nav-link {
+    .nav-link-sidebar {
       justify-content: center;
       padding: 0.8rem 1rem;
+      font-size: 2rem;
+      color: white;
+      text-decoration: none;
     }
     
     .book-now-btn {
@@ -192,9 +204,10 @@
       padding-bottom: 0.5rem;
       margin-bottom: 0.5rem;
     }
-    
-    .nav-item {
-      margin-bottom: 0.25rem;
+   
+    .nav-item-sidebar {
+      
+      
     }
     
     .nav-link {

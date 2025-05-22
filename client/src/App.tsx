@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
 import Homepage from './pages/Homepage';
 import Layout from './components/Layout/Layout';
@@ -12,46 +12,16 @@ function App() {
 
   return (
   <div className="app">
-  <Router>
-    <Routes>
-      <Route path='/' element={
-        <Layout>
-      <Homepage/>
-        </Layout>
-      }
-        />
-        <Route path='/tours' element={
-        <Layout>
-      <ToursPage/>
-        </Layout>
-      }
-        />
-
-<Route path='/about' element={
-        <Layout>
-      <Aboutpage/>
-        </Layout>
-      }
-        />
-
-<Route path='/contact' element={
-        <Layout>
-      <Contactpage/>
-        </Layout>
-      }
-        />
-
-<Route path='/booking' element={
-      <Clientdashboard/>
-      }
-        />
-
-<Route path='/agent' element={
-      <Agentaccount/>
-      }
-        />
-    </Routes>
-  </Router>
+ <HashRouter>
+  <Routes>
+    <Route path="/" element={<Layout><Homepage/></Layout>} />
+    <Route path="/tours" element={<Layout><ToursPage/></Layout>} />
+    <Route path="/about" element={<Layout><Aboutpage/></Layout>} />
+    <Route path="/contact" element={<Layout><Contactpage/></Layout>} />
+    <Route path="/booking" element={<Clientdashboard/>} />
+    <Route path="/agent" element={<Agentaccount/>} />
+  </Routes>
+</HashRouter>
   </div>
   )
 }
