@@ -1,5 +1,5 @@
 import './clientdashboard.css';
-import { FaHome, FaCalendarAlt, FaReceipt, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaCalendarAlt, FaSignOutAlt } from 'react-icons/fa';
 import ClientdashBoard from '../../components/Clientdashboard/Clientdashboard';
 import Bookatrip from '../../components/Booktrip/Bookatrip';
 import MyBookings from '../../components/Mybookings/Mybookings';
