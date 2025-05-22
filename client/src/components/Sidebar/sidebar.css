@@ -182,7 +182,7 @@
 }
 .nav-link-sidebar {
   justify-content: center;
-  font-size: 2.5rem;
+  font-size: 1.6rem;
 }
 
 @media (max-width: 576px) {
@@ -196,7 +196,7 @@
   
   .nav-link-sidebar {
     justify-content: center;
-    font-size: 2.5rem;
+    font-size: 1.6rem;
   }
   
   .sidebar-footer {
