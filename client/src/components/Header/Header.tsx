@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,10 +17,6 @@ function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
 
   return (
     <header className={`header-component ${scrolled ? 'scrolled' : ''}`}>
@@ -41,31 +38,34 @@ function Header() {
             <span className="brand-name fs-3">ExploreEase</span>
           </Link>
 
-          <button 
-            className="navbar-toggler fs-2 text-light" 
-            type="button" 
-            onClick={toggleMobileMenu}
-            aria-label="Toggle navigation"
-          >
-            <FaBars />
-          </button>
+          <div className="d-md-none">
+            <button 
+              className="navbar-toggler fs-2 text-light" 
+              type="button" 
+              data-bs-toggle="collapse" 
+              data-bs-target="#navbarCollapse"
+              aria-label="Toggle navigation"
+            >
+              <FaBars />
+            </button>
+          </div>
 
-          <div className={`collapse navbar-collapse ${isMobileMenuOpen ? 'show' : ''}`}>
+          <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link fs-4" to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+                <Link className="nav-link" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fs-4" to="/tours" onClick={() => setIsMobileMenuOpen(false)}>Tours</Link>
+                <Link className="nav-link" to="/tours">Tours</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fs-4" to="/about" onClick={() => setIsMobileMenuOpen(false)}>About</Link>
+                <Link className="nav-link" to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link fs-4" to="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</Link>
+                <Link className="nav-link" to="/contact">Contact</Link>
               </li>
               <li className="nav-item d-md-none">
-                <Link className="nav-link fs-4" to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link className="nav-link fs-4" to="/login">
                   <FaUser className="me-1" />
                   Login
                 </Link>
@@ -76,7 +76,7 @@ function Header() {
               <button className="btn btn-search me-2 fs-3">
                 <FaSearch />
               </button>
-              <button className="btn btn-primary fs-4">
+              <button onClick={()=>navigate("/booking")} className="btn btn-primary fs-4">
                 Book Now
               </button>
             </div>

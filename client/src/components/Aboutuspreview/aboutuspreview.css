@@ -1,0 +1,217 @@
+/* About Us Preview Section */
+.about-preview {
+    padding: 100px 0;
+    background-color: #fff;
+    position: relative;
+  }
+  
+  .section-subtitle-story-preview {
+    font-size: 1.7rem;
+    letter-spacing: 3px;
+    color: #003f5c;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 15px;
+    display: inline-block;
+  }
+  
+  .section-title-preview {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  
+  .about-text-preview {
+    color: #555;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    line-height: 1.8;
+  }
+  
+  /* About Image */
+  .about-image {
+    position: relative;
+    height: 500px;
+    width: 100%;
+  }
+  
+  .image-main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 80%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+  
+  .image-secondary {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60%;
+    height: 60%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    border: 8px solid white;
+  }
+  
+  .experience-badge {
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    background: #ff7e33;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    z-index: 2;
+    box-shadow: 0 10px 20px rgba(255, 126, 51, 0.3);
+  }
+  
+  .experience-badge span {
+    font-size: 2.5rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+  }
+  
+  .experience-badge p {
+    margin: 5px 0 0;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 30px 0;
+  }
+  
+  .stat-item {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s;
+  }
+  
+  .stat-item:hover {
+    background: #003f5c;
+    color: white;
+  }
+  
+  .stat-item:hover .stat-icon,
+  .stat-item:hover .stat-number,
+  .stat-item:hover .stat-label {
+    color: white;
+  }
+  
+  .stat-icon {
+    font-size: 4rem;
+    color: #ff7e33;
+    margin-right: 15px;
+    min-width: 40px;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #222;
+    display: block;
+    line-height: 1;
+  }
+  
+  .stat-label {
+    font-size: 2rem;
+    color: #666;
+    margin: 5px 0 0;
+  }
+  
+  .btn-primary {
+    background-color: #003f5c;
+    border-color: #003f5c;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #002b44;
+    border-color: #002b44;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .about-preview {
+      padding: 80px 0;
+    }
+    
+    .section-title-preview {
+      font-size: 4rem;
+    }
+    .about-text-preview{
+   font-size: 2rem;
+    }
+    
+    .about-image {
+      height: 400px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .about-preview {
+      padding: 60px 0;
+    }
+    
+    .section-title-preview {
+      font-size: 3rem;
+    }
+    
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-image {
+      margin-bottom: 50px;
+      height: 350px;
+    }
+    
+    .experience-badge {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -30px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .section-subtitle {
+      font-size: 0.9rem;
+    }
+    
+    .section-title {
+      font-size: 1.6rem;
+    }
+    
+    .about-text {
+      font-size: 1rem;
+    }
+    
+    .stat-icon {
+      font-size: 4rem;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+    }
+  }

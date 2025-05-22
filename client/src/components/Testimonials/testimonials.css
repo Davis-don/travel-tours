@@ -1,0 +1,233 @@
+/* Testimonials Section */
+.testimonials-section {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+  }
+  
+  .section-header {
+    margin-bottom: 50px;
+  }
+  
+  .section-subtitle-testimonials {
+    font-size: 1.6rem;
+    letter-spacing: 3px;
+    color: #003f5c;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+  
+  .section-title-testimonials {
+    font-size: 3.7rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 15px;
+  }
+  
+  .section-description-testimonial {
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 2rem;
+    line-height: 1.6;
+  }
+  
+  /* Testimonial Cards */
+  .testimonial-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .col-lg-6.active .testimonial-card {
+    box-shadow: 0 15px 30px rgba(0, 63, 92, 0.15);
+    border: 1px solid rgba(0, 63, 92, 0.1);
+  }
+  
+  .card-body {
+    padding: 30px;
+    flex-grow: 1;
+  }
+  
+  .quote-icon {
+    font-size: 3rem;
+    color: #ff7e33;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+  
+  .testimonial-content {
+    color: #555;
+    font-size: 1.7rem;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    font-style: italic;
+  }
+  
+  .testimonial-rating {
+    margin-bottom: 15px;
+  }
+  
+  .star {
+    color: #ddd;
+    font-size: 1.6rem;
+    margin-right: 3px;
+  }
+  
+  .star.filled {
+    color: #ffd700;
+  }
+  
+  .card-footer {
+    padding: 20px 30px;
+    background: rgba(0, 63, 92, 0.03);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .author-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .author-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .author-name {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 3px;
+    color: #222;
+  }
+  
+  .author-location {
+    font-size: 1.5rem;
+    color: #666;
+    margin: 0;
+  }
+  
+  .testimonial-date {
+    color: #888;
+    font-size: 1.5rem;
+  }
+  
+  /* Navigation Dots */
+  .testimonial-nav-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ddd;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .dot.active {
+    background: #003f5c;
+    transform: scale(1.2);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 992px) {
+    .testimonials-section {
+      padding: 60px 0;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+    }
+    
+    .testimonial-content {
+      font-size: 1.7rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .testimonials-section {
+      padding: 50px 0;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+    }
+    
+    .col-lg-6 {
+      padding: 0 15px;
+    }
+    
+    .card-body {
+      padding: 25px;
+    }
+    
+    .card-footer {
+      padding: 15px 25px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .section-subtitle {
+      font-size: 0.9rem;
+    }
+    
+    .section-title-testimonials  {
+      font-size: 2.5rem;
+    }
+    
+    .section-description-testimonial {
+      font-size: 1.5rem;
+    }
+    
+    .quote-icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+    }
+    
+    .testimonial-content {
+      font-size: 1.6rem;
+    }
+    
+    .author-image {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .author-name {
+      font-size: 1.6rem;
+    }
+    
+    .author-location {
+      font-size: 1.6rem;
+    }
+    
+    .testimonial-date {
+      font-size: 1.4rem;
+    }
+  }
