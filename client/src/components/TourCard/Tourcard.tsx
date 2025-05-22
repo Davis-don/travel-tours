@@ -14,17 +14,22 @@ interface TourCardProps {
     duration: string;
     image?: string;
   };
-  
+
   /** 
-   * Optional click handler for the card 
+   * Optional click handler for booking the tour 
    */
   onBookNow?: (tourId: string | number | undefined) => void;
+
+  /** 
+   * Optional click handler for reading more about the tour
+   */
+  onReadMore?: () => void;
 }
 
 /**
  * A card component that displays tour information
  */
-const TourCard: React.FC<TourCardProps> = ({ tour, onBookNow }) => {
+const TourCard: React.FC<TourCardProps> = ({ tour, onBookNow, onReadMore }) => {
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.src = 'https://via.placeholder.com/300x200';
   };
@@ -56,6 +61,19 @@ const TourCard: React.FC<TourCardProps> = ({ tour, onBookNow }) => {
             {tour.duration}
           </div>
         </div>
+
+        {/* Read More button, shown only if onReadMore is provided */}
+        {onReadMore && (
+          <button 
+            className="tour-card-button secondary"
+            onClick={onReadMore}
+            aria-label={`Read more about ${tour.name} tour`}
+          >
+            Read More
+          </button>
+        )}
+
+        {/* Book Now button */}
         <button 
           className="tour-card-button"
           onClick={handleBookNow}
@@ -69,3 +87,4 @@ const TourCard: React.FC<TourCardProps> = ({ tour, onBookNow }) => {
 };
 
 export default TourCard;
+

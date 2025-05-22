@@ -1,28 +1,242 @@
 .tour-list-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-  
-  .tour-list-title {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #2c3e50;
-    font-size: 2rem;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+
+.tour-list-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  font-size: 2rem;
+  position: relative;
+}
+
+.tour-list-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #3498db;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.tour-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tour-list-empty {
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+  border: 1px dashed #bdc3c7;
+  border-radius: 8px;
+}
+
+/* Tour Detail Modal Styles */
+.tour-detail-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 10;
+}
+
+.close-modal:hover {
+  color: #e74c3c;
+}
+
+.modal-header {
+  position: relative;
+}
+
+.modal-header img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.modal-header h2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  margin: 0;
+  color: white;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.tour-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.tour-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #3498db;
+  font-weight: 500;
+}
+
+.tour-description,
+.tour-highlights,
+.tour-inclusions {
+  margin-bottom: 2rem;
+}
+
+.tour-description h3,
+.tour-highlights h3,
+.tour-inclusions h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.tour-description p {
+  line-height: 1.6;
+  color: #34495e;
+}
+
+.tour-highlights ul,
+.tour-inclusions ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tour-highlights li,
+.tour-inclusions li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #34495e;
+}
+
+.tour-highlights li::before {
+  content: '★';
+  color: #f39c12;
+  position: absolute;
+  left: 0;
+}
+
+.tour-inclusions li::before {
+  content: '✓';
+  color: #2ecc71;
+  position: absolute;
+  left: 0;
+}
+
+.modal-footer {
+  padding: 1rem 2rem;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.book-now-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.book-now-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   .tour-list-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
   }
-  
-  .tour-list-empty {
-    text-align: center;
-    grid-column: 1 / -1;
-    padding: 2rem;
-    color: #7f8c8d;
-    font-size: 1.2rem;
-    border: 1px dashed #bdc3c7;
-    border-radius: 8px;
+
+  .modal-header img {
+    height: 200px;
   }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .tour-meta {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-list-container {
+    padding: 1rem;
+  }
+
+  .tour-list-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-content {
+    max-height: 95vh;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+}

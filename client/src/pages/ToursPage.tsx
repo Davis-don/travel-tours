@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './tourpage.css';
 import Tourfiltersidebar from '../components/Tourfiltersidebar/Tourfiltersidebar';
 import Tourlist from '../components/Tourlist/Tourlist';
 import type { Tour } from '../Interfaces/tour';
 
 const ToursPage: React.FC = () => {
+  
+
   const tours: Tour[] = [
     {
       id: 1,
@@ -32,10 +34,15 @@ const ToursPage: React.FC = () => {
     }
   ];
 
+  const handleFilterChange = (filters: any) => {
+    console.log("Filters updated:", filters);
+    // You can apply filtering logic here and update `filteredTours`
+  };
+
   return (
     <div className="tour-page-container">
       <aside className="tour-page-sidebar">
-        <Tourfiltersidebar />
+        <Tourfiltersidebar onFilterChange={handleFilterChange} />
       </aside>
       <main className="tour-page-main">
         <Tourlist tours={tours} />
