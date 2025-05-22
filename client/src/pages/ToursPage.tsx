@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import './tourpage.css';
 import Tourfiltersidebar from '../components/Tourfiltersidebar/Tourfiltersidebar';
 import Tourlist from '../components/Tourlist/Tourlist';
@@ -14,7 +14,8 @@ const ToursPage: React.FC = () => {
       description: "Explore the most iconic landmarks of Paris with our expert guides.",
       price: 129,
       duration: "1 day",
-      image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?w=500&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1431274172761-fca41d930114?w=500&auto=format&fit=crop",
+      location:"Nairobi"
     },
     {
       id: 2,
@@ -22,7 +23,8 @@ const ToursPage: React.FC = () => {
       description: "Hike through breathtaking mountain landscapes with experienced guides.",
       price: 299,
       duration: "3 days",
-      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&auto=format&fit=crop",
+      location:"Nairobi"
     },
     {
       id: 3,
@@ -30,7 +32,8 @@ const ToursPage: React.FC = () => {
       description: "Relaxing cruise along the beautiful Mediterranean coast.",
       price: 599,
       duration: "7 days",
-      image: "https://images.unsplash.com/photo-1503917988258-f87a78e3c995?w=500&auto=format&fit=crop"
+      image: "https://images.unsplash.com/photo-1503917988258-f87a78e3c995?w=500&auto=format&fit=crop",
+      location:"Nairobi"
     }
   ];
 
