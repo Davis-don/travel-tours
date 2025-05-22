@@ -1,14 +1,16 @@
-import { FaBars, FaUser, FaSearch, FaPhoneAlt } from 'react-icons/fa';
+import { FaBars, FaUser, FaPhoneAlt } from 'react-icons/fa';
 import { MdTravelExplore } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './header.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
+import useSidebarStore from '../../Store/sidebarstore';
 
 function Header() {
+  const toggleSidebar = useSidebarStore((state)=>state.toggleSidebar)
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,69 +22,72 @@ function Header() {
 
   return (
     <header className={`header-component ${scrolled ? 'scrolled' : ''}`}>
-      <div className="container">
-        <div className="header-top-bar d-none d-md-flex justify-content-end">
+      <div className="header-top-bar d-none d-lg-block">
+        <div className="container header-top-container">
           <div className="contact-info">
-            <FaPhoneAlt className="me-2" />
+            <FaPhoneAlt />
             <span>+1 (234) 567-8900</span>
           </div>
-          <div className="login-register ms-4">
-            <FaUser className="me-1" />
-            <Link to="/login">Login/Register</Link>
+          <div className="login-register">
+            <Link to="/login">
+              <FaUser />
+              <span>Login/Register</span>
+            </Link>
           </div>
         </div>
+      </div>
 
-        <nav className="navbar navbar-expand-md navbar-light main-navigation">
+      <nav className="navbar navbar-expand-lg navbar-dark main-navigation">
+        <div className="container">
           <Link className="navbar-brand" to="/">
             <MdTravelExplore className="logo-icon" />
-            <span className="brand-name fs-3">ExploreEase</span>
+            <span className="brand-name">ExploreEase</span>
           </Link>
 
-          <div className="d-md-none">
-            <button 
-              className="navbar-toggler fs-2 text-light" 
-              type="button" 
-              data-bs-toggle="collapse" 
-              data-bs-target="#navbarCollapse"
-              aria-label="Toggle navigation"
-            >
-              <FaBars />
-            </button>
-          </div>
+          <button 
+            className="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarCollapse"
+            aria-label="Toggle navigation"
+          onClick={()=>toggleSidebar()}
+          >
+            <FaBars />
+          </button>
 
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link-header" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/tours">Tours</Link>
+                <Link className="nav-link-header" to="/tours">Tours</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/about">About</Link>
+                <Link className="nav-link-header" to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/contact">Contact</Link>
+                <Link className="nav-link-header" to="/contact">Contact</Link>
               </li>
-              <li className="nav-item d-md-none">
-                <Link className="nav-link fs-4" to="/login">
-                  <FaUser className="me-1" />
+              <li className="nav-item d-lg-none">
+                <Link className="nav-link-header" to="/login">
+                  <FaUser className="me-2" />
                   Login
                 </Link>
               </li>
             </ul>
             
-            <div className="d-none d-md-flex align-items-center ms-3">
-              <button className="btn btn-search me-2 fs-3">
+            <div className="header-actions d-none d-lg-flex">
+              {/* <button className="btn btn-search">
                 <FaSearch />
-              </button>
-              <button onClick={()=>navigate("/booking")} className="btn btn-primary fs-4">
+              </button> */}
+              <button onClick={() => navigate("/booking")} className="btn btn-primary fs-4">
                 Book Now
               </button>
             </div>
           </div>
-        </nav>
-      </div>
+        </div>
+      </nav>
     </header>
   );
 }

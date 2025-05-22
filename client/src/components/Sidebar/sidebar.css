@@ -1,0 +1,208 @@
+/* Base Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 280px;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    color: white;
+    padding: 2rem 0;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+  }
+  
+  /* Header Styles */
+  .sidebar-header {
+    text-align: center;
+    padding: 0 1.5rem 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Navigation Styles */
+  .sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .nav-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(to bottom, #3498db, #2ecc71);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+  }
+  
+  .nav-link:hover::before,
+  .nav-link.active::before {
+    transform: scaleY(1);
+  }
+  
+  .nav-link.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-icon {
+    margin-right: 1rem;
+    font-size: 1.3rem;
+    min-width: 24px;
+  }
+  
+  /* Book Now Button */
+  .book-now-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2.5rem 1.5rem 0;
+    padding: 1rem;
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  }
+  
+  .book-now-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+  }
+  
+  .book-now-icon {
+    margin-right: 0.75rem;
+  }
+  
+  /* Responsive Breakpoints */
+  @media (max-width: 992px) {
+    .sidebar {
+      width: 240px;
+      padding: 1.5rem 0;
+    }
+    
+    .sidebar-title {
+      font-size: 1.6rem;
+    }
+    
+    .nav-link {
+      padding: 0.9rem 1.25rem;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 220px;
+    }
+    
+    .sidebar-title {
+      font-size: 1.5rem;
+    }
+    
+    .book-now-btn {
+      margin: 2rem 1.25rem 0;
+      padding: 0.9rem;
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .sidebar {
+      width: 100%;
+      padding: 1.25rem 0;
+      text-align: center;
+    }
+    
+    .sidebar-header {
+      padding-bottom: 1rem;
+    }
+    
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .nav-item {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .nav-link {
+      justify-content: center;
+      padding: 0.8rem 1rem;
+    }
+    
+    .book-now-btn {
+      margin: 1.5rem auto 0;
+      max-width: 200px;
+    }
+  }
+  
+  /* Mobile Landscape */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+      padding: 1rem 0;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .nav-item {
+      margin-bottom: 0.25rem;
+    }
+    
+    .nav-link {
+      padding: 0.6rem 1rem;
+    }
+    
+    .book-now-btn {
+      margin-top: 1rem;
+      padding: 0.6rem;
+    }
+  }
