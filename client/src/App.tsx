@@ -5,8 +5,9 @@ import Layout from './components/Layout/Layout';
 import ToursPage from './pages/ToursPage';
 import Aboutpage from './pages/Aboutpage/Aboutpage';
 import Contactpage from './pages/Contactpage';
-import Clientdashboard from './pages/Clientdashboard/Clientdashboard';
+// import Clientdashboard from './pages/Clientdashboard/Clientdashboard';
 import Agentaccount from './pages/Agentaccount';
+import Login from './components/Login/Login';
 function App() {
   
 
@@ -18,7 +19,8 @@ function App() {
     <Route path="/tours" element={<Layout><ToursPage/></Layout>} />
     <Route path="/about" element={<Layout><Aboutpage/></Layout>} />
     <Route path="/contact" element={<Layout><Contactpage/></Layout>} />
-    <Route path="/booking" element={<Clientdashboard/>} />
+    <Route path="/contact" element={<Layout><Contactpage/></Layout>} />
+    <Route path="/login" element={<Layout><Login/></Layout>} />
     <Route path="/agent" element={<Agentaccount/>} />
   </Routes>
 </HashRouter>

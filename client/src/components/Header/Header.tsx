@@ -1,4 +1,4 @@
-import { FaBars, FaUser, FaPhoneAlt } from 'react-icons/fa';
+import { FaBars, FaUser } from 'react-icons/fa';
 import { MdTravelExplore } from 'react-icons/md';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -23,18 +23,6 @@ function Header() {
   return (
     <header className={`header-component ${scrolled ? 'scrolled' : ''}`}>
       <div className="header-top-bar d-none d-lg-block">
-        <div className="container header-top-container">
-          <div className="contact-info">
-            <FaPhoneAlt />
-            <span>+1 (234) 567-8900</span>
-          </div>
-          <div className="login-register">
-            <Link to="/login">
-              <FaUser />
-              <span>Login/Register</span>
-            </Link>
-          </div>
-        </div>
       </div>
 
       <nav className="navbar navbar-expand-lg navbar-dark main-navigation">
@@ -81,8 +69,8 @@ function Header() {
               {/* <button className="btn btn-search">
                 <FaSearch />
               </button> */}
-              <button onClick={() => navigate("/booking")} className="btn btn-primary fs-4">
-                Book Now
+              <button onClick={() => navigate("/login")} className="btn btn-primary fs-4">
+                Get started
               </button>
             </div>
           </div>
