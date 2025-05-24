@@ -1,0 +1,103 @@
+/* hero.css */
+.voyago-hero {
+    position: relative;
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1680&q=80') no-repeat center center/cover;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .voyago-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1.5s ease-out;
+  }
+  
+  .voyago-hero h1 {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #6c5ce7, #00cec9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .voyago-hero p {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  .voyago-hero-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: linear-gradient(90deg, #6c5ce7, #00cec9);
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+  }
+  
+  .voyago-hero-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
+  }
+  
+  /* Floating animation for a subtle interactive effect */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .voyago-hero-image {
+    position: absolute;
+    bottom: -5%;
+    right: 5%;
+    width: 300px;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+    z-index: 1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .voyago-hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .voyago-hero p {
+      font-size: 1.2rem;
+    }
+    
+    .voyago-hero-image {
+      width: 200px;
+      right: 0;
+      opacity: 0.8;
+    }
+  }
+  
+  /* Fade-in animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

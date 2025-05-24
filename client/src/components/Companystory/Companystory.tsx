@@ -1,86 +1,55 @@
-import './companystory.css';
+import './companystory.css';  
 
-function Companystory() {
-  return (
-    <section className="company-story">
-      <div className="story-container">
-        <h2 className="story-title">Our Journey Through Time</h2>
-        <div className="story-timeline">
-          <div className="timeline-item">
-            <div className="timeline-year-container">
-              <div className="timeline-year">2005</div>
-            </div>
-            <div className="timeline-content">
-              <h3>Humble Beginnings</h3>
-              <p>Founded in a small office with just two employees and a single van, we started offering local city tours with a passion for sharing our love of travel.</p>
-            </div>
-          </div>
-          
-          <div className="timeline-item">
-            <div className="timeline-year-container">
-              <div className="timeline-year">2010</div>
-            </div>
-            <div className="timeline-content">
-              <h3>First International Tour</h3>
-              <p>We expanded our horizons by offering our first international package to Bali, Indonesia. This marked the beginning of our global adventure.</p>
-            </div>
-          </div>
-          
-          <div className="timeline-item">
-            <div className="timeline-year-container">
-              <div className="timeline-year">2015</div>
-            </div>
-            <div className="timeline-content">
-              <h3>Award-Winning Service</h3>
-              <p>Recognized as "Best Tour Operator" by Travel Excellence Awards for our innovative itineraries and exceptional customer service.</p>
-            </div>
-          </div>
-          
-          <div className="timeline-item">
-            <div className="timeline-year-container">
-              <div className="timeline-year">2020</div>
-            </div>
-            <div className="timeline-content">
-              <h3>Sustainable Travel Initiative</h3>
-              <p>Launched our eco-friendly tour programs, committing to carbon-neutral operations and supporting local communities.</p>
-            </div>
-          </div>
-          
-          <div className="timeline-item">
-            <div className="timeline-year-container">
-              <div className="timeline-year">Present</div>
-            </div>
-            <div className="timeline-content">
-              <h3>Your Trusted Travel Partner</h3>
-              <p>Today, we operate in 35 countries with over 150 dedicated staff members, but our core values remain the same - creating unforgettable experiences.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div className="story-mission">
-          <h3>Our Mission</h3>
-          <p>To inspire discovery and meaningful connection through exceptional travel experiences that enrich lives and broaden perspectives.</p>
-          <div className="mission-values">
-            <div className="value-card">
-              <div className="value-icon">🌍</div>
-              <h4>Global Perspective</h4>
-              <p>We believe travel breaks down barriers and fosters understanding.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon">❤️</div>
-              <h4>Passionate Service</h4>
-              <p>Our team's enthusiasm is the heart of every journey we create.</p>
-            </div>
-            <div className="value-card">
-              <div className="value-icon">♻️</div>
-              <h4>Sustainable Travel</h4>
-              <p>We're committed to protecting the destinations we love.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+function Companystory() {  
+  return (  
+    <div className="voyago-story">  
+      <div className="voyago-header">  
+        <h1 className="voyago-title">Our Story</h1>  
+        <p className="voyago-subtitle">How a simple idea transformed into unforgettable adventures</p>  
+      </div>  
 
-export default Companystory;
+      <div className="voyago-timeline">  
+        <div className="voyago-event">  
+          <h2 className="voyago-event-title">The Spark</h2>  
+          <p className="voyago-event-date">January 2025</p>  
+          <p className="voyago-event-desc">  
+            It all began on a backpacking trip through the Balkans. Our founders, Alex and Maria, realized that most tours felt rigid and impersonal. They dreamed of a travel experience where every journey felt like an adventure with friends—not just a checklist of tourist spots.  
+          </p>  
+        </div>  
+
+        <div className="voyago-event">  
+          <h2 className="voyago-event-title">First Steps</h2>  
+          <p className="voyago-event-date">June 2025</p>  
+          <p className="voyago-event-desc">  
+            With nothing but passion and a laptop, they launched Voyago in a tiny co-working space in Barcelona. Their first tour—a hidden-gems exploration of Costa Brava—sold out in 48 hours. Travelers loved the mix of local storytelling, spontaneous detours, and small-group intimacy.  
+          </p>  
+        </div>  
+
+        <div className="voyago-event">  
+          <h2 className="voyago-event-title">The Turning Point</h2>  
+          <p className="voyago-event-date">November 2025</p>  
+          <p className="voyago-event-desc">  
+            A viral TikTok video of a surprise flamenco performance in a Seville orange grove put Voyago on the map. Suddenly, travelers weren’t just booking trips—they were joining a movement. By year’s end, we’d expanded to 12 destinations across Europe, each with its own "Voyago twist."  
+          </p>  
+        </div>  
+
+        <div className="voyago-event">  
+          <h2 className="voyago-event-title">Today & Beyond</h2>  
+          <p className="voyago-event-date">2026 & Forward</p>  
+          <p className="voyago-event-desc">  
+            Now, Voyago isn’t just a tour company—it’s a community of curious explorers. We’ve introduced "Storyteller Guides" (locals who weave history into immersive experiences), "Surprise Routes" (where travelers vote on daily adventures), and eco-conscious travel initiatives. Next stop? Rewriting the rules of global exploration.  
+          </p>  
+        </div>  
+      </div>  
+
+      <div className="voyago-mission">  
+        <h2 className="voyago-mission-title">Our Mission</h2>  
+        <p className="voyago-mission-text">  
+          To turn every trip into a living story—where travelers don’t just see places, but <em>feel</em> them. Because the best journeys aren’t about the miles covered, but the memories created.  
+        </p>  
+      </div>  
+    </div>  
+  );  
+}  
+
+export default Companystory;  
