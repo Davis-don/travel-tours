@@ -1,102 +1,114 @@
 import './contactform.css';
-import { FaPaperPlane, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaWhatsapp, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 function Contactform() {
   return (
-    <section className="contact-section">
-      <div className="contact-container">
-        <div className="contact-header">
-          <h2>Get in Touch</h2>
-          <p>Have questions about your next adventure? We'd love to hear from you!</p>
-        </div>
-
-        <div className="contact-content">
-          <div className="contact-info">
-            <div className="info-card">
-              <div className="info-icon">
-                <FaPhone />
-              </div>
-              <div className="info-text">
-                <h3>Call Us</h3>
-                <p>+1 (800) 555-ADVENTURE</p>
-                <p>+1 (800) 555-TOURS</p>
-              </div>
+    <div className="voyago-contact-section">
+      <div className="voyago-contact-header">
+        <h2>Get In Touch</h2>
+        <p>Have questions about your next adventure? Our team is ready to help you plan the perfect journey.</p>
+      </div>
+      
+      <div className="voyago-contact-grid">
+        <div className="voyago-contact-info">
+          <div className="voyago-contact-card">
+            <div className="voyago-contact-icon">
+              <FaPhone />
             </div>
-
-            <div className="info-card">
-              <div className="info-icon">
-                <FaMapMarkerAlt />
-              </div>
-              <div className="info-text">
-                <h3>Visit Us</h3>
-                <p>123 Explorer's Way</p>
-                <p>Denver, CO 80202, USA</p>
-              </div>
-            </div>
-
-            <div className="info-card">
-              <div className="info-icon">
-                <FaClock />
-              </div>
-              <div className="info-text">
-                <h3>Office Hours</h3>
-                <p>Monday-Friday: 9am - 6pm</p>
-                <p>Saturday: 10am - 4pm</p>
-                <p>Sunday: Closed</p>
-              </div>
-            </div>
-
-            <div className="contact-image">
-              <img src="https://images.unsplash.com/photo-1508672019048-805c876b67e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Travel Adventure" />
+            <div className="voyago-contact-details">
+              <h3>Call Us</h3>
+              <p>+1 (555) 123-4567</p>
+              <p>Mon-Fri: 9am-6pm</p>
             </div>
           </div>
-
-          <form className="contact-form">
-            <div className="form-group">
-              <label htmlFor="name">Your Name</label>
-              <input type="text" id="name" placeholder="John Smith" required />
+          
+          <div className="voyago-contact-card">
+            <div className="voyago-contact-icon">
+              <FaEnvelope />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input type="email" id="email" placeholder="john@example.com" required />
+            <div className="voyago-contact-details">
+              <h3>Email Us</h3>
+              <a href="mailto:hello@voyago.com">hello@voyago.com</a>
+              <p>Response within 24 hours</p>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="phone">Phone Number</label>
-              <input type="tel" id="phone" placeholder="(123) 456-7890" />
+          </div>
+          
+          <div className="voyago-contact-card">
+            <div className="voyago-contact-icon">
+              <FaWhatsapp />
             </div>
-
-            <div className="form-group">
-              <label htmlFor="interest">Tour Interest</label>
-              <select id="interest">
-                <option value="">Select an option</option>
-                <option value="adventure">Adventure Tours</option>
-                <option value="cultural">Cultural Experiences</option>
-                <option value="luxury">Luxury Travel</option>
-                <option value="family">Family Vacations</option>
-                <option value="custom">Custom Itinerary</option>
+            <div className="voyago-contact-details">
+              <h3>WhatsApp</h3>
+              <a href="https://wa.me/15551234567">+1 (555) 123-4567</a>
+              <p>Instant messaging</p>
+            </div>
+          </div>
+          
+          <div className="voyago-contact-card">
+            <div className="voyago-contact-icon">
+              <FaMapMarkerAlt />
+            </div>
+            <div className="voyago-contact-details">
+              <h3>Visit Us</h3>
+              <p>123 Adventure Lane</p>
+              <p>Barcelona, Spain 08001</p>
+            </div>
+          </div>
+          
+          <div className="voyago-social-links">
+            <a href="#" className="voyago-social-link"><FaFacebook /></a>
+            <a href="#" className="voyago-social-link"><FaInstagram /></a>
+            <a href="#" className="voyago-social-link"><FaTwitter /></a>
+          </div>
+        </div>
+        
+        <div className="voyago-contact-form-container">
+          <form>
+            <div className="voyago-form-group">
+              <label htmlFor="name">Full Name</label>
+              <input 
+                type="text" 
+                id="name" 
+                placeholder="Your name" 
+                required 
+              />
+            </div>
+            
+            <div className="voyago-form-group">
+              <label htmlFor="email">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                placeholder="your.email@example.com" 
+                required 
+              />
+            </div>
+            
+            <div className="voyago-form-group">
+              <label htmlFor="subject">Subject</label>
+              <select id="subject" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="booking">Booking Inquiry</option>
+                <option value="custom">Custom Tour Request</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Other</option>
               </select>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="message">Your Message</label>
-              <textarea id="message" rows={5} placeholder="Tell us about your dream vacation..."></textarea>
+            
+            <div className="voyago-form-group">
+              <label htmlFor="message">Message</label>
+              <textarea 
+                id="message" 
+                placeholder="Tell us about your dream adventure..." 
+                required 
+              />
             </div>
-
-            <div className="form-group checkbox-group">
-              <input type="checkbox" id="newsletter" />
-              <label htmlFor="newsletter">Subscribe to our newsletter for travel inspiration and special offers</label>
-            </div>
-
-            <button type="submit" className="submit-btn">
-              <FaPaperPlane className="submit-icon" />
-              Send Message
-            </button>
+            
+            <button type="submit" className="voyago-submit-btn">Send Message</button>
           </form>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 
