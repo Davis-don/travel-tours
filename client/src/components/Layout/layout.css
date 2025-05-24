@@ -1,0 +1,21 @@
+.overall-layout-container{
+position: relative;
+}
+.sidebar-container-here {
+    position: fixed;
+    z-index: 2;
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(44, 62, 80, 0.98) 0%,
+      rgba(26, 37, 47, 0.98) 100%
+    );
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  }
+.content-all-layout{
+    position: absolute;
+    z-index: +1;
+    width: 100%;
+}

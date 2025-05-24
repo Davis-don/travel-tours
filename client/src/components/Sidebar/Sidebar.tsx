@@ -1,63 +1,24 @@
-import { 
-  FaHome, 
-  FaMapMarkedAlt, 
-  FaInfoCircle, 
-  FaEnvelope, 
-  FaCalendarAlt 
-} from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import './sidebar.css';
-import useSidebarStore from '../../Store/sidebarstore';
+import './sidebar.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { useNavigate } from 'react-router-dom'
+import useSidebarStore from '../../Store/sidebarstore'
 
 function Sidebar() {
-  const navigate = useNavigate();
-  const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
-
-  const navItems = [
-    { name: 'Home', icon: <FaHome className="sidebar-nav-icon" />, path: '/' },
-    { name: 'Tours', icon: <FaMapMarkedAlt className="sidebar-nav-icon" />, path: '/tours' },
-    { name: 'About', icon: <FaInfoCircle className="sidebar-nav-icon" />, path: '/about' },
-    { name: 'Contact', icon: <FaEnvelope className="sidebar-nav-icon" />, path: '/contact' }
-  ];
-
-  const handleNavigation = (path: string) => {
-    navigate(path);
-    toggleSidebar();
-  };
-
+const navigate = useNavigate()
+const toggleBar=useSidebarStore((state)=>state.toggleSidebar)
   return (
-    <div className="sidebar-container">
-      <div className="sidebar-header">
-        <h2 className="sidebar-brand">TravelEase</h2>
+    <div className='overall-side-bar-component'>
+      <ul className='list-unstyled'>
+       <li onClick={()=>{toggleBar();navigate('/')}} className='text-light'>Home</li>
+       <li onClick={()=>{toggleBar();navigate('/tours')}} className='text-light'>Tours</li>
+       <li onClick={()=>{toggleBar();navigate('/about')}} className='text-light'>About</li>
+       <li onClick={()=>{toggleBar();navigate('/contact')}} className='text-light'>Contact</li>
+      </ul>
+      <div className="getstarted-button-div">
+        <button onClick={()=>{navigate('/login');toggleBar()}} className='btn btn-primary fs-2'>Get started</button>
       </div>
-      
-      <nav className="sidebar-navigation">
-        <ul className="sidebar-menu">
-          {navItems.map((item, index) => (
-            <li className="sidebar-menu-item" key={index}>
-              <button 
-                onClick={() => handleNavigation(item.path)} 
-                className="sidebar-menu-link"
-              >
-                {item.icon}
-                <span className="sidebar-menu-text">{item.name}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      
-      <div className="sidebar-actions">
-        <button 
-          onClick={() => handleNavigation('/login')} 
-          className="sidebar-action-button"
-        >
-          <FaCalendarAlt className="sidebar-action-icon" />
-          <span>Get started</span>
-        </button>
       </div>
-    </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar
