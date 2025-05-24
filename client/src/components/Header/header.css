@@ -110,6 +110,78 @@
   gap: 5px;
 }
 
+
+
+.nav-item {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  overflow: hidden;
+}
+
+.nav-item:hover {
+  transform: translateY(-3px);
+  text-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.nav-item:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 3px;
+  animation: navUnderline 0.3s ease-out forwards;
+  box-shadow: 0 2px 10px rgba(46, 204, 113, 0.4);
+}
+
+.nav-item:hover::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-item:hover::after {
+  opacity: 1;
+}
+
+@keyframes navUnderline {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 80%;
+    opacity: 1;
+  }
+}
+
+/* For icons inside nav items */
+.nav-item:hover .nav-icon {
+  transform: scale(1.1);
+  color: #3498db;
+}
+
+.nav-icon {
+  transition: all 0.3s ease;
+}
+
+
+
+
+
+
+
 .nav-link-header {
   text-decoration: none;
   font-weight: 600;

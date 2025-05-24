@@ -8,6 +8,7 @@ import Contactpage from './pages/Contactpage';
 import Agentaccount from './pages/Agentaccount';
 import Login from './components/Login/Login';
 import ScrollToTop from './components/Sroll top/Scrolltop';
+import Signup from './components/signup/Signup';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/about" element={<Layout><Aboutpage/></Layout>} />
           <Route path="/contact" element={<Layout><Contactpage/></Layout>} />
           <Route path="/login" element={<Layout><Login/></Layout>} />
+          <Route path="/signup" element={<Layout><Signup/></Layout>} />
           <Route path="/agent" element={<Agentaccount />} />
         </Routes>
       </HashRouter>

@@ -1,6 +1,8 @@
 import './login.css';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate()
   return (
     <div className="login-container">
       <div className="login-image">
@@ -14,7 +16,7 @@ function Login() {
         <div className="login-form">
           <h1>Sign In</h1>
           
-          <div className="form-group">
+          <div className="form-group-login">
             <label htmlFor="email">Email Address</label>
             <input 
               type="email" 
@@ -24,7 +26,7 @@ function Login() {
             />
           </div>
           
-          <div className="form-group">
+          <div className="form-group-login">
             <label htmlFor="password">Password</label>
             <input 
               type="password" 
@@ -38,7 +40,7 @@ function Login() {
           <button type="submit" className="login-btn">Sign In</button>
           
           <div className="signup-link">
-            Don't have an account? <a href="/signup">Sign up</a>
+            Don't have an account? <a onClick={()=>navigate('/signup')}>Sign up</a>
           </div>
         
         </div>
