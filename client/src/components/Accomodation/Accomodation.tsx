@@ -4,7 +4,6 @@ import { useState, useRef } from 'react';
 import { Toaster, toast } from 'sonner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getCloudinaryUrl } from '../../Claudinary/claudinaryupload';
-import { deleteCloudinaryImage } from '../../Claudinary/claudinary-delete';
 
 const apiUrl = import.meta.env.VITE_travel;
 
@@ -64,7 +63,6 @@ interface Amenity {
 }
 
 function Accomodation() {
-  // Form state
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -93,7 +91,6 @@ function Accomodation() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Toggle section visibility
   const toggleSection = (section: keyof typeof expandedSections) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -101,7 +98,6 @@ function Accomodation() {
     }));
   };
 
-  // Fetch data with loading states for each section
   const {
     data: accommodations,
     isLoading: isLoadingAccommodations,
@@ -164,10 +160,8 @@ function Accomodation() {
     },
   });
 
-  // Add accommodation with Cloudinary upload
   const addMutation = useMutation({
     mutationFn: async (newAccommodation: typeof formData) => {
-      // First upload image to Cloudinary if a file is selected
       let imgUrl = newAccommodation.imgUrl;
       let publicId = newAccommodation.publicId;
       
@@ -185,15 +179,27 @@ function Accomodation() {
         }
       }
 
-      // Then save to database
+      // Transform the data to match backend expectations
+      const submissionData = {
+        name: newAccommodation.name,
+        description: newAccommodation.description,
+        city: newAccommodation.city,
+        county: newAccommodation.county,
+        country: newAccommodation.country,
+        circuit: newAccommodation.circuit,
+        class: newAccommodation.class,
+        serviceLevelId: newAccommodation.serviceLevelId,
+        typeId: newAccommodation.typeId,
+        imgUrl,
+        publicId,
+        rooms: newAccommodation.roomTypeIds.map(id => ({ roomTypeId: id })),
+        amenities: newAccommodation.amenityIds.map(id => ({ amenityId: id }))
+      };
+
       const res = await fetch(`${apiUrl}/accommodation/add-accommodation`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...newAccommodation,
-          imgUrl,
-          publicId
-        }),
+        body: JSON.stringify(submissionData),
       });
       if (!res.ok) throw new Error('Failed to add accommodation');
       return res.json();
@@ -224,29 +230,8 @@ function Accomodation() {
     onError: (error: Error) => toast.error(`Error adding accommodation: ${error.message}`),
   });
 
-  // Delete accommodation with Cloudinary cleanup
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      // First get the accommodation to get the publicId
-      const accommodationRes = await fetch(`${apiUrl}/accommodation/fetch-accommodation-by-id/${id}`);
-      if (!accommodationRes.ok) throw new Error('Failed to fetch accommodation for deletion');
-      
-      const accommodation: Accommodation = await accommodationRes.json();
-      
-
-      alert(accommodation.publicId)
-      // Delete from Cloudinary if publicId exists
-      if (accommodation.publicId) {
-        
-        try {
-          await deleteCloudinaryImage(accommodation.publicId);
-        } catch (error) {
-          console.error('Error deleting image from Cloudinary:', error);
-          // Continue with database deletion even if Cloudinary deletion fails
-        }
-      }
-      
-      // Then delete from database
       const res = await fetch(`${apiUrl}/accommodation/delete-accommodation-by-id?id=${id}`, {
         method: 'DELETE',
       });
@@ -282,13 +267,11 @@ function Accomodation() {
   const handleCheckboxChange = (type: 'serviceLevelId' | 'typeId' | 'roomTypeIds' | 'amenityIds', id: string) => {
     setFormData(prev => {
       if (type === 'serviceLevelId' || type === 'typeId') {
-        // For single selection fields
         return {
           ...prev,
-          [type]: prev[type] === id ? '' : id, // Toggle selection
+          [type]: prev[type] === id ? '' : id,
         };
       } else {
-        // For multiple selection fields
         const current = prev[type];
         const newValue = current.includes(id)
           ? current.filter(item => item !== id)
@@ -306,7 +289,6 @@ function Accomodation() {
     if (!file) return;
 
     setSelectedFile(file);
-    // Preview the image locally
     const reader = new FileReader();
     reader.onload = (event) => {
       if (event.target?.result) {
@@ -358,7 +340,6 @@ function Accomodation() {
     <div className='accomodation-container'>
       <Toaster richColors position='top-center' />
 
-      {/* Selection Modal */}
       {showSelectionModal && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -388,7 +369,6 @@ function Accomodation() {
       </div>
 
       <div className='accomodation-content'>
-        {/* Form Section */}
         <div className='accomodation-form'>
           <h2>Add New Accommodation</h2>
           <form onSubmit={handleSubmit}>
@@ -584,7 +564,6 @@ function Accomodation() {
               </div>
             </div>
 
-            {/* Room Types */}
             <div className='form-group'>
               <div className="d-flex justify-content-between align-items-center">
                 <label>Room Types</label>
@@ -631,7 +610,6 @@ function Accomodation() {
               </button>
             </div>
 
-            {/* Amenities */}
             <div className='form-group'>
               <div className="d-flex justify-content-between align-items-center">
                 <label>Amenities</label>
@@ -686,7 +664,6 @@ function Accomodation() {
           </form>
         </div>
 
-        {/* Table Section */}
         <div className='accomodation-table'>
           <h2>Existing Accommodations</h2>
           {isLoadingAccommodations ? (
