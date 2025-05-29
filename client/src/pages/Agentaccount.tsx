@@ -2,7 +2,11 @@ import './agentaccount.css';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { FaUser, FaMapMarkerAlt, FaInfoCircle, FaDollarSign } from 'react-icons/fa';
-
+import Servicelevelcomponent from '../components/service-level/Servicelevelcomponent';
+import AccommodationType from '../components/Accomodationtype/Accomodationtype';
+import Roomtype from '../components/Roomtype/Roomtype';
+import Amenities from '../components/Amenity/Amenities';
+import Accommodation from '../components/Accomodation/Accomodation';
 
 interface Task {
   id: number;
@@ -29,7 +33,9 @@ interface Task {
 }
 
 function Agentaccount() {
-  const [activeTab, setActiveTab] = useState<'tasks' | 'completed'>('tasks');
+  const [activeTab, setActiveTab] = useState<
+    'tasks' | 'completed' | 'service' | 'accommodationType' | 'roomType' | 'amenity' | 'accommodation'
+  >('tasks');
   const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -118,18 +124,13 @@ function Agentaccount() {
       <div className="dashboard-container">
         <nav className="sidebar">
           <ul>
-            <li
-              className={activeTab === 'tasks' ? 'active' : ''}
-              onClick={() => setActiveTab('tasks')}
-            >
-              New Tasks
-            </li>
-            <li
-              className={activeTab === 'completed' ? 'active' : ''}
-              onClick={() => setActiveTab('completed')}
-            >
-              Completed Tasks
-            </li>
+            <li className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>New Tasks</li>
+            <li className={activeTab === 'completed' ? 'active' : ''} onClick={() => setActiveTab('completed')}>Completed Tasks</li>
+            <li className={activeTab === 'service' ? 'active' : ''} onClick={() => setActiveTab('service')}>Service Level</li>
+            <li className={activeTab === 'accommodationType' ? 'active' : ''} onClick={() => setActiveTab('accommodationType')}>Accommodation Type</li>
+            <li className={activeTab === 'roomType' ? 'active' : ''} onClick={() => setActiveTab('roomType')}>Room Type</li>
+            <li className={activeTab === 'amenity' ? 'active' : ''} onClick={() => setActiveTab('amenity')}>Amenity</li>
+            <li className={activeTab === 'accommodation' ? 'active' : ''} onClick={() => setActiveTab('accommodation')}>Accommodation</li>
           </ul>
         </nav>
 
@@ -141,9 +142,7 @@ function Agentaccount() {
                 {newTasks.map(task => (
                   <div key={task.id} className="task-card">
                     <div className="task-header">
-                      <span className={`priority-badge ${task.priority.toLowerCase()}`}>
-                        {task.priority}
-                      </span>
+                      <span className={`priority-badge ${task.priority.toLowerCase()}`}>{task.priority}</span>
                       <h3>{task.client}</h3>
                       <span className="task-date">{task.requestDate}</span>
                     </div>
@@ -152,12 +151,7 @@ function Agentaccount() {
                       <p><strong>Details:</strong> {task.details}</p>
                     </div>
                     <div className="task-footer">
-                      <button
-                        className="btn-primary"
-                        onClick={() => handleStartTask(task)}
-                      >
-                        Start Task
-                      </button>
+                      <button className="btn-primary" onClick={() => handleStartTask(task)}>Start Task</button>
                     </div>
                   </div>
                 ))}
@@ -194,23 +188,50 @@ function Agentaccount() {
               )}
             </div>
           )}
+
+          {activeTab === 'service' && (
+            <div className="api-section">
+              <Servicelevelcomponent />
+            </div>
+          )}
+
+          {activeTab === 'accommodationType' && (
+            <div className="api-section">
+              <AccommodationType />
+              {/* Add your component here later */}
+            </div>
+          )}
+
+          {activeTab === 'roomType' && (
+            <div className="api-section">
+              <Roomtype />
+              {/* Add your component here later */}
+            </div>
+          )}
+
+          {activeTab === 'amenity' && (
+            <div className="api-section">
+              <Amenities/>
+              {/* Add your component here later */}
+            </div>
+          )}
+
+          {activeTab === 'accommodation' && (
+            <div className="api-section">
+              <Accommodation />
+              {/* Add your component here later */}
+            </div>
+          )}
         </main>
       </div>
 
-      {/* Task Details Modal */}
       {isModalOpen && selectedTask && (
         <div className="modal-overlay">
           <div className="modal-container">
             <div className="modal-header">
               <h2>Client Trip Details</h2>
-              <button 
-                className="modal-close-btn"
-                onClick={() => setIsModalOpen(false)}
-              >
-                &times;
-              </button>
+              <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>&times;</button>
             </div>
-            
             <div className="modal-content">
               <div className="client-details-section">
                 <h3><FaUser className="section-icon" /> Client Information</h3>
@@ -279,12 +300,8 @@ function Agentaccount() {
                   />
                 </div>
                 <div className="form-actions">
-                  <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>
-                    Cancel
-                  </button>
-                  <button type="submit" className="btn-primary">
-                    Complete Task
-                  </button>
+                  <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                  <button type="submit" className="btn-primary">Complete Task</button>
                 </div>
               </form>
             </div>
