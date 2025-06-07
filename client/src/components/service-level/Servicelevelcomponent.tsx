@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Toaster, toast } from 'sonner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const apiUrl = import.meta.env.VITE_travel;
+const apiUrl = import.meta.env.VITE_travel_api;
 
 interface ServiceLevel {
   id: string;

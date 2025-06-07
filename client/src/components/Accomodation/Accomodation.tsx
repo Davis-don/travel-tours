@@ -5,7 +5,7 @@ import { Toaster, toast } from 'sonner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getCloudinaryUrl } from '../../Claudinary/claudinaryupload';
 
-const apiUrl = import.meta.env.VITE_travel;
+const apiUrl = import.meta.env.VITE_travel_api;
 
 interface Accommodation {
   id: string;
