@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../node_modules/.prisma/client"
+  binaryTargets = ["native", "windows"]
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id             String   @id @default(uuid())
+  firstName      String
+  lastName       String
+  email          String   @unique
+  contact        String
+  password       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+
+  bookings       Booking[]
+  @@map("client_tbl") // <-- Renames table in the DB to client_tbl
+}
+
+model Booking {
+  id              String   @id @default(uuid())
+  clientId        String
+  destination     String
+  travelDates     String
+  budget          String
+  travelers       String
+  preferences     String
+  specialRequests String
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  client          Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  plan            Plan?    // One-to-one relation with Plan
+
+  @@map("booking_tbl")
+}
+
+
+
+model Employee {
+  id           String   @id @default(uuid())
+  firstName    String
+  middleName   String?
+  lastName     String
+  dateOfBirth  DateTime
+  nationalId   String   @unique
+  email        String   @unique
+  phoneNumber  String
+  password     String
+  role         String   
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Plan {
+  id            String   @id @default(uuid())
+  bookingId     String   @unique
+  estimatedPrice String
+  agentNotes     String
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  booking        Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("plan_tbl")
+}

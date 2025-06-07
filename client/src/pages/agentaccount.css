@@ -409,3 +409,189 @@
       width: 100%;
     }
   }
+
+
+
+
+
+
+  /* Status Badges */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+}
+
+.status-pending {
+  background-color: #f44336; /* Red */
+}
+
+.status-completed {
+  background-color: #4CAF50; /* Green */
+}
+
+.status-cancelled {
+  background-color: #9E9E9E; /* Gray */
+}
+
+/* Badge for sidebar counts */
+.badge {
+  display: inline-block;
+  min-width: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background-color: #3f51b5;
+  color: white;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  margin-left: 8px;
+}
+
+/* Modal status badge */
+.modal-status {
+  position: absolute;
+  top: 20px;
+  right: 60px;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.btn-view {
+  background-color: #2196F3;
+  color: white;
+}
+
+/* Task card enhancements */
+.task-card {
+  border-left: 4px solid;
+}
+
+.task-card .status-pending {
+  border-left-color: #f44336;
+}
+
+.task-card .status-completed {
+  border-left-color: #4CAF50;
+}
+
+.task-card .status-cancelled {
+  border-left-color: #9E9E9E;
+}
+
+
+
+/* Add these styles to your existing agentaccount.css */
+
+/* Status Badges */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+}
+
+.status-pending {
+  background-color: #FFA500; /* Orange */
+}
+
+.status-pending-payment {
+  background-color: #3498db; /* Blue */
+}
+
+.status-cancelled {
+  background-color: #e74c3c; /* Red */
+}
+
+.status-confirmed {
+  background-color: #2ecc71; /* Green */
+}
+
+.status-in-progress {
+  background-color: #9b59b6; /* Purple */
+}
+
+.status-default {
+  background-color: #95a5a6; /* Gray */
+}
+
+/* Task Card Actions */
+.task-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-undo {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-undo:hover {
+  background-color: #e67e22;
+}
+
+.btn-undo:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Task Card Enhancements */
+.task-card {
+  border-left: 4px solid;
+  position: relative;
+}
+
+.task-card .status-pending {
+  border-left-color: #FFA500;
+}
+
+.task-card .status-pending-payment {
+  border-left-color: #3498db;
+}
+
+.task-card .status-cancelled {
+  border-left-color: #e74c3c;
+}
+
+.task-card .status-confirmed {
+  border-left-color: #2ecc71;
+}
+
+.task-card .status-in-progress {
+  border-left-color: #9b59b6;
+}
+
+.task-card .status-default {
+  border-left-color: #95a5a6;
+}
+
+/* Modal status badge */
+.modal-status {
+  position: absolute;
+  top: 20px;
+  right: 60px;
+}

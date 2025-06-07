@@ -1,235 +1,274 @@
 import './agentaccount.css';
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { FaUser, FaMapMarkerAlt, FaInfoCircle, FaDollarSign } from 'react-icons/fa';
+import { FaUser, FaMapMarkerAlt, FaInfoCircle, FaDollarSign, FaUndo } from 'react-icons/fa';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import Servicelevelcomponent from '../components/service-level/Servicelevelcomponent';
 import AccommodationType from '../components/Accomodationtype/Accomodationtype';
 import Roomtype from '../components/Roomtype/Roomtype';
 import Amenities from '../components/Amenity/Amenities';
 import Accommodation from '../components/Accomodation/Accomodation';
+import { useLocation } from 'react-router-dom';
+import { useAuthStore } from '../Store/useauthstore';
+import axios from 'axios';
+import { toast, Toaster } from 'sonner';
 
-interface Task {
-  id: number;
-  client: string;
-  requestDate: string;
-  serviceType: string;
-  priority: 'High' | 'Medium' | 'Low';
-  details: string;
-  destination?: string;
-  tripType?: string;
-  travelDates?: string;
-  duration?: string;
-  travelerName?: string;
-  email?: string;
-  phone?: string;
-  travelersCount?: string;
-  travelerAges?: string;
-  budget?: string;
-  accommodation?: string;
-  transport?: string[];
-  interests?: string[];
-  tripDescription?: string;
-  notes?: string;
+interface Client {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  contact: string;
+  password: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
+interface Booking {
+  id: string;
+  clientId: string;
+  destination: string;
+  travelDates: string;
+  budget: string;
+  travelers: string;
+  preferences: string;
+  specialRequests: string;
+  status: string; // Changed to string to accommodate all statuses
+  createdAt: string;
+  updatedAt: string;
+  client: Client;
+}
+
+type ActiveTab =
+  | 'tasks'
+  | 'service'
+  | 'accommodationType'
+  | 'roomType'
+  | 'amenity'
+  | 'accommodation';
+
 function Agentaccount() {
-  const [activeTab, setActiveTab] = useState<
-    'tasks' | 'completed' | 'service' | 'accommodationType' | 'roomType' | 'amenity' | 'accommodation'
-  >('tasks');
-  const [completedTasks, setCompletedTasks] = useState<Task[]>([]);
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [agentNotes, setAgentNotes] = useState('');
-  const [estimatedPrice, setEstimatedPrice] = useState('');
+  const token = useAuthStore((state) => state.token);
+  const location = useLocation();
+  const role: string | undefined = location.state?.role;
+  const dataStuff = useAuthStore((state) => state.user);
 
-  const newTasks: Task[] = [
-    {
-      id: 1,
-      client: 'John Doe',
-      requestDate: '2023-05-15',
-      serviceType: 'International Trip',
-      priority: 'High',
-      details: 'Planning a honeymoon to Bali',
-      destination: 'Bali, Indonesia',
-      tripType: 'Honeymoon',
-      travelDates: '2023-11-15 to 2023-11-30',
-      duration: '2 Weeks',
-      travelerName: 'John and Jane Doe',
-      email: 'john.doe@example.com',
-      phone: '(123) 456-7890',
-      travelersCount: '2',
-      budget: '$5,000+',
-      accommodation: 'Luxury (5-star)',
-      transport: ['flight', 'private'],
-      interests: ['beach', 'relaxation', 'food'],
-      tripDescription: 'We want a romantic honeymoon with private villas, spa treatments, and fine dining. Interested in cultural experiences but mostly relaxation.',
-      notes: 'We are celebrating our wedding anniversary as well.'
+  const [activeTab, setActiveTab] = useState<ActiveTab>('tasks');
+  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [agentNotes, setAgentNotes] = useState<string>('');
+  const [estimatedPrice, setEstimatedPrice] = useState<string>('');
+
+  const apiUrl = import.meta.env.VITE_travel;
+
+  const { data: bookings = [], isLoading, error, refetch } = useQuery<Booking[]>({
+    queryKey: ['bookings'],
+    queryFn: async () => {
+      const response = await axios.get(`${apiUrl}/booking/fetch-all`);
+      return Array.isArray(response.data) ? response.data : [];
     },
-    {
-      id: 2,
-      client: 'Smith Family',
-      requestDate: '2023-05-16',
-      serviceType: 'Family Vacation',
-      priority: 'Medium',
-      details: 'Family trip to Europe with kids',
-      destination: 'Multiple Destinations',
-      tripType: 'Family',
-      travelDates: '2024-06-15 to 2024-07-01',
-      duration: '2 Weeks',
-      travelerName: 'Michael Smith',
-      email: 'm.smith@example.com',
-      phone: '(987) 654-3210',
-      travelersCount: '4',
-      travelerAges: '42, 40 (adults), 12, 8 (kids)',
-      budget: '$10,000 total',
-      accommodation: 'Mix of Options',
-      transport: ['flight', 'train'],
-      interests: ['culture', 'hiking', 'food'],
-      tripDescription: 'Looking for a mix of cultural experiences and fun activities for kids. Want to visit Paris, Rome, and maybe Switzerland. Need kid-friendly accommodations and activities.'
-    }
-  ];
+  });
 
-  const completeTask = (taskId: number) => {
-    const task = newTasks.find(t => t.id === taskId);
-    if (task) {
-      setCompletedTasks(prev => [...prev, task]);
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'status-pending';
+      case 'pending payment':
+        return 'status-pending-payment';
+      case 'cancelled':
+        return 'status-cancelled';
+      case 'confirmed':
+        return 'status-confirmed';
+      case 'in progress':
+        return 'status-in-progress';
+      default:
+        return 'status-default';
     }
   };
 
-  const handleStartTask = (task: Task) => {
-    setSelectedTask(task);
+  const handleStartTask = (booking: Booking): void => {
+    setSelectedBooking(booking);
+    setAgentNotes('');
+    setEstimatedPrice('');
     setIsModalOpen(true);
   };
 
-  const handleSubmitAgentForm = (e: FormEvent) => {
-    e.preventDefault();
-    if (selectedTask) {
-      completeTask(selectedTask.id);
-      setIsModalOpen(false);
-      setAgentNotes('');
-      setEstimatedPrice('');
-    }
+  const planMutation = useMutation({
+    mutationFn: async ({ bookingId, agentNotes, estimatedPrice }: {
+      bookingId: string;
+      agentNotes: string;
+      estimatedPrice: string;
+    }) => {
+      const response = await axios.post(
+        `${apiUrl}/plans/add-plan/${bookingId}`,
+        { agentNotes, estimatedPrice },
+        {
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || 'Plan created successfully!');
+      setTimeout(() => {
+        refetch();
+      }, 1000);
+    },
+    onError: (error: any) => {
+      const message = error.response?.data?.message || 'Failed to create plan';
+      toast.error(message);
+    },
+  });
+
+ const undoChangesMutation = useMutation({
+  mutationFn: async (bookingId: string) => {
+    const response = await axios.delete(
+      `${apiUrl}/plans/delete/${bookingId}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    return response.data;
+  },
+  onSuccess: (data) => {
+    toast.success(data.message || 'Booking reverted to pending successfully!');
+    refetch();
+  },
+  onError: (error: any) => {
+    const message = error.response?.data?.message || 'Failed to revert booking';
+    toast.error(message);
+  },
+});
+
+
+  const handleUndoChanges = (bookingId: string) => {
+    undoChangesMutation.mutate(bookingId);
   };
+
+  const handleSubmitAgentForm = (e: FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    if (!selectedBooking) return;
+
+    planMutation.mutate({
+      bookingId: selectedBooking.id,
+      agentNotes,
+      estimatedPrice,
+    });
+
+    setTimeout(() => {
+      setIsModalOpen(false);
+    }, 3000);
+  };
+
+  const getInitials = (): string => {
+    const f = dataStuff?.firstName?.[0]?.toUpperCase() || '';
+    const l = dataStuff?.lastName?.[0]?.toUpperCase() || '';
+    return f + l;
+  };
+
+  if (isLoading) return <div className="loading">Loading...</div>;
+  if (error) return <div className="error">Error loading bookings</div>;
 
   return (
     <div className="agent-dashboard">
+      <Toaster richColors position="top-center" closeButton={false} />
       <header className="dashboard-header">
         <h1>Agent Dashboard</h1>
         <div className="user-info">
-          <span>Welcome, Agent Smith</span>
-          <div className="avatar">AS</div>
+          <span>Welcome, {dataStuff?.firstName}</span>
+          <div className="avatar">{getInitials()}</div>
         </div>
       </header>
 
       <div className="dashboard-container">
         <nav className="sidebar">
           <ul>
-            <li className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>New Tasks</li>
-            <li className={activeTab === 'completed' ? 'active' : ''} onClick={() => setActiveTab('completed')}>Completed Tasks</li>
-            <li className={activeTab === 'service' ? 'active' : ''} onClick={() => setActiveTab('service')}>Service Level</li>
-            <li className={activeTab === 'accommodationType' ? 'active' : ''} onClick={() => setActiveTab('accommodationType')}>Accommodation Type</li>
-            <li className={activeTab === 'roomType' ? 'active' : ''} onClick={() => setActiveTab('roomType')}>Room Type</li>
-            <li className={activeTab === 'amenity' ? 'active' : ''} onClick={() => setActiveTab('amenity')}>Amenity</li>
-            <li className={activeTab === 'accommodation' ? 'active' : ''} onClick={() => setActiveTab('accommodation')}>Accommodation</li>
+            <li className={activeTab === 'tasks' ? 'active' : ''} onClick={() => setActiveTab('tasks')}>
+              All Bookings <span className="badge">{bookings.length}</span>
+            </li>
+            {role === 'senior-agent' && (
+              <>
+                <li className={activeTab === 'service' ? 'active' : ''} onClick={() => setActiveTab('service')}>
+                  Service Level
+                </li>
+                <li
+                  className={activeTab === 'accommodationType' ? 'active' : ''}
+                  onClick={() => setActiveTab('accommodationType')}
+                >
+                  Accommodation Type
+                </li>
+                <li className={activeTab === 'roomType' ? 'active' : ''} onClick={() => setActiveTab('roomType')}>
+                  Room Type
+                </li>
+                <li className={activeTab === 'amenity' ? 'active' : ''} onClick={() => setActiveTab('amenity')}>
+                  Amenity
+                </li>
+                <li className={activeTab === 'accommodation' ? 'active' : ''} onClick={() => setActiveTab('accommodation')}>
+                  Accommodation
+                </li>
+              </>
+            )}
           </ul>
         </nav>
 
         <main className="main-content">
           {activeTab === 'tasks' && (
             <div className="tasks-section">
-              <h2>New Tasks</h2>
+              <h2>All Bookings</h2>
               <div className="tasks-grid">
-                {newTasks.map(task => (
-                  <div key={task.id} className="task-card">
-                    <div className="task-header">
-                      <span className={`priority-badge ${task.priority.toLowerCase()}`}>{task.priority}</span>
-                      <h3>{task.client}</h3>
-                      <span className="task-date">{task.requestDate}</span>
+                {bookings.map((booking) => (
+                  <div key={booking.id} className="task-card">
+                    <div className="booking-header">
+                      <h3>{booking.destination}</h3>
+                      <span className={`status-badge ${getStatusColor(booking.status)}`}>
+                        {booking.status.toUpperCase()}
+                      </span>
                     </div>
-                    <div className="task-body">
-                      <p><strong>Service:</strong> {task.serviceType}</p>
-                      <p><strong>Details:</strong> {task.details}</p>
-                    </div>
-                    <div className="task-footer">
-                      <button className="btn-primary" onClick={() => handleStartTask(task)}>Start Task</button>
+                    <p>Client: {booking.client.firstName} {booking.client.lastName}</p>
+                    <p>Dates: {booking.travelDates}</p>
+                    <div className="task-actions">
+                      <button 
+                        className="btn-primary"
+                        onClick={() => handleStartTask(booking)}
+                      >
+                        View Details
+                      </button>
+                      {booking.status === 'Pending Payment' && (
+                        <button 
+                          className="btn-undo"
+                          onClick={() => handleUndoChanges(booking.id)}
+                          disabled={undoChangesMutation.isPending}
+                        >
+                          <FaUndo /> {undoChangesMutation.isPending ? 'Processing...' : 'Undo Changes'}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           )}
-
-          {activeTab === 'completed' && (
-            <div className="completed-section">
-              <h2>Completed Tasks</h2>
-              {completedTasks.length === 0 ? (
-                <p>No completed tasks yet.</p>
-              ) : (
-                <table className="completed-tasks-table">
-                  <thead>
-                    <tr>
-                      <th>Client</th>
-                      <th>Service</th>
-                      <th>Details</th>
-                      <th>Completed Date</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {completedTasks.map((task, index) => (
-                      <tr key={index}>
-                        <td>{task.client}</td>
-                        <td>{task.serviceType}</td>
-                        <td>{task.details}</td>
-                        <td>{new Date().toISOString().split('T')[0]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-          )}
-
-          {activeTab === 'service' && (
-            <div className="api-section">
-              <Servicelevelcomponent />
-            </div>
-          )}
-
-          {activeTab === 'accommodationType' && (
-            <div className="api-section">
-              <AccommodationType />
-              {/* Add your component here later */}
-            </div>
-          )}
-
-          {activeTab === 'roomType' && (
-            <div className="api-section">
-              <Roomtype />
-              {/* Add your component here later */}
-            </div>
-          )}
-
-          {activeTab === 'amenity' && (
-            <div className="api-section">
-              <Amenities/>
-              {/* Add your component here later */}
-            </div>
-          )}
-
-          {activeTab === 'accommodation' && (
-            <div className="api-section">
-              <Accommodation />
-              {/* Add your component here later */}
-            </div>
-          )}
+          {activeTab === 'service' && <Servicelevelcomponent />}
+          {activeTab === 'accommodationType' && <AccommodationType />}
+          {activeTab === 'roomType' && <Roomtype />}
+          {activeTab === 'amenity' && <Amenities />}
+          {activeTab === 'accommodation' && <Accommodation />}
         </main>
       </div>
 
-      {isModalOpen && selectedTask && (
+      {isModalOpen && selectedBooking && (
         <div className="modal-overlay">
           <div className="modal-container">
             <div className="modal-header">
-              <h2>Client Trip Details</h2>
+              <h2>Client Booking Details</h2>
+              <span className={`status-badge ${getStatusColor(selectedBooking.status)} modal-status`}>
+                {selectedBooking.status.toUpperCase()}
+              </span>
               <button className="modal-close-btn" onClick={() => setIsModalOpen(false)}>&times;</button>
             </div>
             <div className="modal-content">
@@ -237,13 +276,10 @@ function Agentaccount() {
                 <h3><FaUser className="section-icon" /> Client Information</h3>
                 <div className="details-grid">
                   <div>
-                    <p><strong>Name:</strong> {selectedTask.travelerName}</p>
-                    <p><strong>Email:</strong> {selectedTask.email}</p>
-                    <p><strong>Phone:</strong> {selectedTask.phone}</p>
-                    <p><strong>Travelers:</strong> {selectedTask.travelersCount}</p>
-                    {selectedTask.travelerAges && (
-                      <p><strong>Ages:</strong> {selectedTask.travelerAges}</p>
-                    )}
+                    <p><strong>Name:</strong> {selectedBooking.client.firstName} {selectedBooking.client.lastName}</p>
+                    <p><strong>Email:</strong> {selectedBooking.client.email}</p>
+                    <p><strong>Phone:</strong> {selectedBooking.client.contact}</p>
+                    <p><strong>Travelers:</strong> {selectedBooking.travelers}</p>
                   </div>
                 </div>
               </div>
@@ -252,58 +288,52 @@ function Agentaccount() {
                 <h3><FaMapMarkerAlt className="section-icon" /> Trip Details</h3>
                 <div className="details-grid">
                   <div>
-                    <p><strong>Destination:</strong> {selectedTask.destination}</p>
-                    <p><strong>Trip Type:</strong> {selectedTask.tripType}</p>
-                    <p><strong>Travel Dates:</strong> {selectedTask.travelDates}</p>
-                    <p><strong>Duration:</strong> {selectedTask.duration}</p>
-                    <p><strong>Budget:</strong> {selectedTask.budget}</p>
-                    <p><strong>Accommodation:</strong> {selectedTask.accommodation}</p>
-                  </div>
-                  <div>
-                    <p><strong>Transport:</strong> {selectedTask.transport?.join(', ')}</p>
-                    <p><strong>Interests:</strong> {selectedTask.interests?.join(', ')}</p>
+                    <p><strong>Destination:</strong> {selectedBooking.destination}</p>
+                    <p><strong>Travel Dates:</strong> {selectedBooking.travelDates}</p>
+                    <p><strong>Budget:</strong> {selectedBooking.budget}</p>
+                    <p><strong>Preferences:</strong> {selectedBooking.preferences}</p>
                   </div>
                 </div>
               </div>
 
               <div className="description-section">
-                <h3><FaInfoCircle className="section-icon" /> Trip Description</h3>
-                <p>{selectedTask.tripDescription}</p>
-                {selectedTask.notes && (
-                  <>
-                    <h4>Additional Notes:</h4>
-                    <p>{selectedTask.notes}</p>
-                  </>
-                )}
+                <h3><FaInfoCircle className="section-icon" /> Special Requests</h3>
+                <p>{selectedBooking.specialRequests || 'No special requests'}</p>
               </div>
 
-              <form onSubmit={handleSubmitAgentForm} className="agent-form">
-                <h3><FaDollarSign className="section-icon" /> Agent Planning</h3>
-                <div className="form-group">
-                  <label>Estimated Price</label>
-                  <input
-                    type="text"
-                    value={estimatedPrice}
-                    onChange={(e) => setEstimatedPrice(e.target.value)}
-                    placeholder="Enter estimated price"
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Your Notes & Plan</label>
-                  <textarea
-                    value={agentNotes}
-                    onChange={(e) => setAgentNotes(e.target.value)}
-                    placeholder="Enter your plan, itinerary suggestions, or notes for the client..."
-                    rows={5}
-                    required
-                  />
-                </div>
-                <div className="form-actions">
-                  <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>Cancel</button>
-                  <button type="submit" className="btn-primary">Complete Task</button>
-                </div>
-              </form>
+              {selectedBooking.status === 'pending' && (
+                <form onSubmit={handleSubmitAgentForm} className="agent-form">
+                  <h3><FaDollarSign className="section-icon" /> Agent Planning</h3>
+                  <div className="form-group">
+                    <label>Estimated Price</label>
+                    <input
+                      type="text"
+                      value={estimatedPrice}
+                      onChange={(e) => setEstimatedPrice(e.target.value)}
+                      placeholder="Enter estimated price"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Your Notes & Plan</label>
+                    <textarea
+                      value={agentNotes}
+                      onChange={(e) => setAgentNotes(e.target.value)}
+                      placeholder="Enter your plan, itinerary suggestions, or notes for the client..."
+                      rows={5}
+                      required
+                    />
+                  </div>
+                  <div className="form-actions">
+                    <button type="button" className="btn-secondary" onClick={() => setIsModalOpen(false)}>
+                      Cancel
+                    </button>
+                    <button type="submit" className="btn-primary" disabled={planMutation.isPending}>
+                      {planMutation.isPending ? 'Submitting...' : 'Complete Task'}
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>

@@ -1,0 +1,60 @@
+/* Agents.css */
+
+/* Add specific styles for the agents table if needed */
+.agents .table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.agents .table th {
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.agents .table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.agents .table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Action buttons */
+.agents .btn-sm {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  margin-right: 5px;
+}
+
+/* Role badges */
+.role-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.role-badge.agent {
+  background-color: #d4edff;
+  color: #004085;
+}
+
+.role-badge.senior-agent {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.role-badge.team-lead {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.role-badge.admin {
+  background-color: #f8d7da;
+  color: #721c24;
+}

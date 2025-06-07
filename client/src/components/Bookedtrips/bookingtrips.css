@@ -1,0 +1,401 @@
+.bookings-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bookings-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trips-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.trip-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  background: white;
+}
+
+.trip-card:hover {
+  transform: translateY(-5px);
+}
+
+.trip-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.trip-content {
+  padding: 1.5rem;
+}
+
+.trip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.trip-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* New style for Pending Payment status */
+.status-badge.pending_payment {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-badge.confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-badge.agent_review {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.trip-details {
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  margin: 0.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.detail-item i {
+  margin-top: 0.2rem;
+  color: #7f8c8d;
+}
+
+.proposal-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn.accept {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn.reject {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn.read-more {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.no-trips {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+}
+
+.no-trips p {
+  margin-bottom: 1rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #7f8c8d;
+}
+
+.proposal-details {
+  margin-top: 1rem;
+}
+
+.proposal-details p {
+  margin-bottom: 0.5rem;
+}
+
+.itinerary {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #dc3545;
+}
+
+
+
+.buttons-concel-here{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
+
+
+
+/* Payment Options Modal Styles */
+.payment-options-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.payment-options-card {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.payment-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.payment-header h2 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.payment-header p {
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
+
+.payment-methods-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.payment-method {
+  flex: 1;
+  min-width: 300px;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method.mpesa-section {
+  border-top: 4px solid #43A047;
+}
+
+.payment-method.usd-section {
+  border-top: 4px solid #1976D2;
+}
+
+.payment-icon {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.payment-method h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.payment-instructions {
+  background-color: #f8f9fa;
+  padding: 1.2rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.payment-instructions ol, 
+.payment-instructions ul {
+  padding-left: 1.2rem;
+}
+
+.payment-instructions li {
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.till-number {
+  font-size: 1.1rem;
+  color: #43A047;
+  background-color: #e8f5e9;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+}
+
+.payment-note {
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  background-color: #e3f2fd;
+  color: #1976D2;
+}
+
+.payment-note.warning {
+  background-color: #fff8e1;
+  color: #ff8f00;
+}
+
+.important-note {
+  background-color: #fff3e0;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.important-note h4 {
+  margin-top: 0;
+  color: #e65100;
+  font-size: 1rem;
+}
+
+.payment-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.automation-notice {
+  background-color: #e3f2fd;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.automation-notice svg {
+  color: #1976D2;
+  flex-shrink: 0;
+}
+
+.automation-notice p {
+  margin: 0;
+  color: #0d47a1;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .payment-methods-container {
+    flex-direction: column;
+  }
+  
+  .payment-method {
+    width: 100%;
+  }
+  
+  .payment-options-card {
+    padding: 1.5rem;
+  }
+}

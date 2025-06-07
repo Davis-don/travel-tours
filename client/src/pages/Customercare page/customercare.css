@@ -1,0 +1,197 @@
+/* Base Styles */
+.customer-care-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.care-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  background: linear-gradient(135deg, #1e5799 0%, #207cca 100%);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.care-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.care-header p {
+  margin: 10px 0 0;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* Password Recovery Notice */
+.password-notice {
+  display: flex;
+  background-color: #f8f9fa;
+  border-left: 4px solid #ffc107;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  align-items: center;
+}
+
+.notice-icon {
+  font-size: 2rem;
+  color: #ffc107;
+  margin-right: 20px;
+}
+
+.notice-content h3 {
+  margin-top: 0;
+  color: #343a40;
+}
+
+.update-notice {
+  font-style: italic;
+  color: #6c757d;
+  margin-top: 10px;
+}
+
+/* Contact Methods */
+.contact-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.contact-card {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.phone {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.whatsapp {
+  background-color: #e8f5e9;
+  color: #4caf50;
+}
+
+.contact-icon {
+  font-size: 30px;
+}
+
+.contact-card h3 {
+  margin: 0 0 10px;
+  color: #2c3e50;
+}
+
+.contact-link {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.call {
+  background-color: #1976d2;
+  color: white;
+}
+
+.call:hover {
+  background-color: #1565c0;
+}
+
+.whatsapp-link {
+  background-color: #25D366;
+  color: white;
+}
+
+.whatsapp-link:hover {
+  background-color: #128C7E;
+}
+
+.availability, .response-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 15px;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Emergency Card */
+.emergency {
+  border: 2px solid #e53935;
+}
+
+/* Support Info */
+.support-info {
+  margin-top: 40px;
+}
+
+.support-info h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-left: 3px solid #3498db;
+}
+
+.info-item h3 {
+  margin-top: 0;
+  color: #3498db;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-methods {
+    grid-template-columns: 1fr;
+  }
+  
+  .password-notice {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .notice-icon {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+}
