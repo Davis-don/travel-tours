@@ -4,6 +4,7 @@ import { Toaster, toast } from 'sonner';
 import './bookingtrips.css';
 import { useAuthStore } from '../../Store/useauthstore';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaTimes, FaMoneyBillWave, FaFileAlt } from 'react-icons/fa';
 
 interface Booking {
   id: string;
@@ -27,6 +28,16 @@ interface Proposal {
   itinerary: string;
 }
 
+interface Plan {
+  id: string;
+  bookingId: string;
+  estimatedPrice: string;
+  agentNotes: string;
+  createdAt: string;
+  updatedAt: string;
+  booking: Booking;
+}
+
 const defaultImages = [
   'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
   'https://images.unsplash.com/photo-1445019980597-93fa8acb246c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
@@ -37,6 +48,7 @@ function BookedTrips() {
   const apiUrl = import.meta.env.VITE_travel;
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+  const [selectedBookingForPlan, setSelectedBookingForPlan] = useState<Booking | null>(null);
   const token = useAuthStore((state) => state.token);
 
   // Fetch booked trips
@@ -79,6 +91,29 @@ function BookedTrips() {
       return await res.json();
     },
     enabled: bookings.some(b => b.status === 'Pending Payment')
+  });
+
+  // Fetch plan for a booking
+  const { 
+    data: selectedPlan, 
+    isLoading: isLoadingPlan,
+    error: planError,
+  } = useQuery<Plan, Error>({
+    queryKey: ['plan', selectedBookingForPlan?.id],
+    queryFn: async () => {
+      if (!token || !selectedBookingForPlan) throw new Error('Authentication required');
+
+      const res = await fetch(`${apiUrl}/plans/plan/${selectedBookingForPlan.id}`, {
+        headers: { 'Authorization': `${token}` }
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to fetch plan');
+      }
+      return await res.json();
+    },
+    enabled: !!selectedBookingForPlan,
   });
 
   // Mutation for accepting a proposal
@@ -177,6 +212,14 @@ function BookedTrips() {
     cancelBooking(bookingId);
   };
 
+  const handleViewPlan = (booking: Booking) => {
+    setSelectedBookingForPlan(booking);
+  };
+
+  const closePlanModal = () => {
+    setSelectedBookingForPlan(null);
+  };
+
   const getRandomImage = (bookingId: string) => {
     const hash = bookingId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return defaultImages[hash % defaultImages.length];
@@ -200,7 +243,7 @@ function BookedTrips() {
     <div className="bookings-container">
       <Toaster richColors position="top-center" />
       
-      {/* Payment Options Card - appears on top when showPaymentOptions is true */}
+      {/* Payment Options Modal */}
       {showPaymentOptions && (
         <div className="payment-options-modal">
           <div className="payment-options-card">
@@ -275,6 +318,56 @@ function BookedTrips() {
             <div className="payment-footer">
               <p>Need help with payment? Contact us at <strong>support@example.com</strong></p>
             </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Plan Details Modal - Takes 3/4 of screen */}
+      {selectedBookingForPlan && (
+        <div className="plan-modal-overlay">
+          <div className="plan-modal-container">
+            <div className="plan-modal-header">
+              <h2>Agent's Travel Plan</h2>
+              <button 
+                className="plan-modal-close"
+                onClick={closePlanModal}
+              >
+                <FaTimes />
+              </button>
+            </div>
+            
+            {isLoadingPlan ? (
+              <div className="plan-loading">Loading plan details...</div>
+            ) : planError ? (
+              <div className="plan-error">Error loading plan: {planError.message}</div>
+            ) : selectedPlan ? (
+              <div className="plan-modal-content">
+                <div className="plan-section">
+                  <h3>Estimated Price</h3>
+                  <p className="plan-price">{selectedPlan.estimatedPrice}</p>
+                </div>
+                
+                <div className="plan-section">
+                  <h3>Agent's Notes</h3>
+                  <div className="plan-notes">
+                    {selectedPlan.agentNotes.split('\n').map((para, i) => (
+                      <p key={i}>{para}</p>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="plan-actions">
+                  <button 
+                    className="btn btn-success"
+                    onClick={() => setShowPaymentOptions(true)}
+                  >
+                    <FaMoneyBillWave /> Pay Now
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="plan-not-found">No plan found for this booking</div>
+            )}
           </div>
         </div>
       )}
@@ -370,10 +463,10 @@ function BookedTrips() {
 
                         {booking.status === "Pending Payment" && (
                           <button 
-                            className="btn btn-success cancel"
-                            onClick={() => setShowPaymentOptions(true)}
+                            className="btn btn-primary"
+                            onClick={() => handleViewPlan(booking)}
                           >
-                            <i className="fas fa-money-bill-wave"></i> Pay Now
+                            <FaFileAlt /> View Agent's Plan
                           </button>
                         )}
                       </div>

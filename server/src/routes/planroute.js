@@ -80,7 +80,7 @@ router.get('/fetch-all', async (_req, res) => {
 });
 
 // ✅ Get plan by booking ID
-router.get('/:bookingId', async (req, res) => {
+router.get('/plan/:bookingId', async (req, res) => {
   const { bookingId } = req.params;
 
   try {

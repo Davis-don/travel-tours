@@ -72,7 +72,6 @@
   color: #856404;
 }
 
-/* New style for Pending Payment status */
 .status-badge.pending_payment {
   background-color: #d1ecf1;
   color: #0c5460;
@@ -218,15 +217,71 @@
   color: #dc3545;
 }
 
-
-
-.buttons-concel-here{
-display: flex;
-flex-direction: row;
-justify-content: space-between;
+.buttons-concel-here {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
+/* Plan Details Card Styles */
+.plan-details-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #17a2b8;
+}
 
+.plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.plan-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.plan-content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.plan-section {
+  background: #f8f9fa;
+  padding: 1.2rem;
+  border-radius: 6px;
+}
+
+.plan-section h4 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: #17a2b8;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.notes {
+  line-height: 1.6;
+}
+
+.notes p {
+  margin-bottom: 0.8rem;
+}
+
+.plan-actions {
+  display: flex;
+  justify-content: flex-end;
+}
 
 /* Payment Options Modal Styles */
 .payment-options-modal {
@@ -397,5 +452,157 @@ justify-content: space-between;
   
   .payment-options-card {
     padding: 1.5rem;
+  }
+  
+  .plan-details-card {
+    padding: 1rem;
+  }
+  
+  .buttons-concel-here {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .booking-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+
+
+/* Add these new styles to your bookingtrips.css */
+
+/* Plan Modal Styles */
+.plan-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.plan-modal-container {
+  background: white;
+  border-radius: 10px;
+  width: 75%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.plan-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+}
+
+.plan-modal-header h2 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.plan-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #7f8c8d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.plan-modal-close:hover {
+  background: #f8f9fa;
+  color: #dc3545;
+}
+
+.plan-modal-content {
+  padding: 1.5rem;
+}
+
+.plan-section {
+  margin-bottom: 2rem;
+}
+
+.plan-section h3 {
+  color: #17a2b8;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plan-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #28a745;
+  padding: 0.8rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.plan-notes {
+  background: #f8f9fa;
+  padding: 1.2rem;
+  border-radius: 6px;
+  line-height: 1.6;
+}
+
+.plan-notes p {
+  margin-bottom: 0.8rem;
+}
+
+.plan-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+  margin-top: 2rem;
+}
+
+.plan-loading,
+.plan-error,
+.plan-not-found {
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
+}
+
+.plan-error {
+  color: #dc3545;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .plan-modal-container {
+    width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .plan-modal-container {
+    width: 95%;
+    max-height: 90vh;
+  }
+  
+  .plan-modal-content {
+    padding: 1rem;
   }
 }
