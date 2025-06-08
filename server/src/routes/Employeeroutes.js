@@ -255,4 +255,114 @@ router.delete('/', jwtMiddleware, async (_req, res) => {
   }
 });
 
+
+
+
+
+
+router.put('/update-agent', jwtMiddleware, async (req, res) => {
+  const employeeId = req.userId;
+  console.log('Employee ID from JWT:', employeeId);
+
+  const {
+    firstName,
+    middleName,
+    lastName,
+    email,
+    phoneNumber,
+    nationalId,
+    currentPassword,
+    newPassword
+  } = req.body;
+
+  try {
+    const existingEmployee = await prisma.employee.findUnique({
+      where: { id: employeeId }
+    });
+
+    if (!existingEmployee) {
+      return res.status(404).json({ message: 'Employee not found.' });
+    }
+
+    const updateData = {};
+
+    if (firstName) updateData.firstName = firstName;
+    if (middleName !== undefined) updateData.middleName = middleName;
+    if (lastName) updateData.lastName = lastName;
+    if (phoneNumber) updateData.phoneNumber = phoneNumber;
+
+    if (nationalId && nationalId !== existingEmployee.nationalId) {
+      const nationalIdExists = await prisma.employee.findUnique({
+        where: { nationalId },
+        select: { id: true }
+      });
+
+      if (nationalIdExists) {
+        return res.status(400).json({ message: 'National ID already in use.' });
+      }
+
+      updateData.nationalId = nationalId;
+    }
+
+    if (email && email !== existingEmployee.email) {
+      const emailExists = await prisma.employee.findUnique({
+        where: { email },
+        select: { id: true }
+      });
+
+      if (emailExists) {
+        return res.status(400).json({ message: 'Email already in use.' });
+      }
+
+      updateData.email = email;
+    }
+
+    if (newPassword) {
+      if (!currentPassword) {
+        return res.status(400).json({ message: 'Current password is required to change password.' });
+      }
+
+      const passwordValid = await bcrypt.compare(currentPassword, existingEmployee.password);
+      if (!passwordValid) {
+        return res.status(401).json({ message: 'Current password is incorrect.' });
+      }
+
+      updateData.password = await bcrypt.hash(newPassword, SALT_ROUNDS);
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      const updatedEmployee = await prisma.employee.update({
+        where: { id: employeeId },
+        data: updateData,
+        select: {
+          id: true,
+          firstName: true,
+          middleName: true,
+          lastName: true,
+          email: true,
+          phoneNumber: true,
+          nationalId: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true
+        }
+      });
+
+      return res.status(200).json({
+        message: 'Employee information updated successfully.',
+        employee: updatedEmployee
+      });
+    }
+
+    return res.status(200).json({ message: 'No changes detected.' });
+
+  } catch (error) {
+    console.error('Update employee error:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+
+
+
 export default router;

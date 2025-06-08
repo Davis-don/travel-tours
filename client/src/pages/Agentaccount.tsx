@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 import { useAuthStore } from '../Store/useauthstore';
 import axios from 'axios';
 import { toast, Toaster } from 'sonner';
+import Agentsettings from '../components/Agentsettings/Agentsettings';
 
 interface Client {
   id: string;
@@ -45,7 +46,8 @@ type ActiveTab =
   | 'accommodationType'
   | 'roomType'
   | 'amenity'
-  | 'accommodation';
+  | 'accommodation'
+  | 'agentSettings';
 
 function Agentaccount() {
   const token = useAuthStore((state) => state.token);
@@ -211,6 +213,9 @@ function Agentaccount() {
                 <li className={activeTab === 'accommodation' ? 'active' : ''} onClick={() => setActiveTab('accommodation')}>
                   Accommodation
                 </li>
+                <li className={activeTab === 'agentSettings' ? 'active' : ''} onClick={() => setActiveTab('agentSettings')}>
+                  Agent Settings
+                </li>
               </>
             )}
           </ul>
@@ -258,6 +263,7 @@ function Agentaccount() {
           {activeTab === 'roomType' && <Roomtype />}
           {activeTab === 'amenity' && <Amenities />}
           {activeTab === 'accommodation' && <Accommodation />}
+          {activeTab === 'agentSettings' && <Agentsettings />}
         </main>
       </div>
 
