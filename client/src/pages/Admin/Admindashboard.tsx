@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './admindashboard.css';
 import Dashboard from '../../components/Admindashboard/Dashboard';
 import Agents from '../../components/Adminagents/Agent';
-// import Clients from './Clients';
+import Client from '../../components/Clientadmincontrol/Client';
 // import Bookings from './Bookings';
 // import Settings from './Settings';
 // import Reports from './Reports';
@@ -20,7 +20,7 @@ function AdminDashboard() {
       case 'agents':
         return <Agents />;
       case 'clients':
-    //     return <Clients />;
+         return <Client />;
     //   case 'bookings':
     //     return <Bookings />;
     //   case 'payments':

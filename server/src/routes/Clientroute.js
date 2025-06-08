@@ -149,7 +149,7 @@ router.post('/login', async (req, res) => {
 });
 
 // ✅ Fetch all clients (Protected Route)
-router.get('/', jwtMiddleware, async (_req, res) => {
+router.get('/fetch-all', jwtMiddleware, async (_req, res) => {
   try {
     const clients = await client.client.findMany({
       select: { id: true, firstName: true, lastName: true, email: true, contact: true, createdAt: true }
@@ -292,5 +292,68 @@ router.put('/update-client', jwtMiddleware, async (req, res) => {
   }
 });
 
+
+
+// Protected search endpoint
+router.get('/search/:email',jwtMiddleware,  async (req, res) => {
+  const { email } = req.params;
+
+  if (!email || typeof email !== 'string') {
+    return res.status(400).json({ message: 'Email query parameter is required' });
+  }
+
+  try {
+    const foundClient = await client.client.findUnique({
+      where: { email },
+      include: {
+        bookings: {
+          include: {
+            plan: true
+          },
+          orderBy: {
+            createdAt: 'desc'
+          }
+        }
+      }
+    });
+
+    if (!foundClient) {
+      return res.status(404).json({ message: 'Client not found' });
+    }
+
+    const { password, ...clientData } = foundClient;
+    res.status(200).json(clientData);
+  } catch (error) {
+    console.error('Client search error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Protected password reset endpoint
+router.post('/reset-password', jwtMiddleware, async (req, res) => {
+  const { clientId, newPassword } = req.body;
+
+  if (!clientId || !newPassword) {
+    return res.status(400).json({ message: 'Client ID and new password are required' });
+  }
+
+  if (newPassword.length < 8) {
+    return res.status(400).json({ message: 'Password must be at least 8 characters' });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+    
+    await client.client.update({
+      where: { id: clientId },
+      data: { password: hashedPassword }
+    });
+
+    res.status(200).json({ message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 export default router;
