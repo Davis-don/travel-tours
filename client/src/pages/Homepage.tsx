@@ -2,7 +2,7 @@ import './homepage.css'
 import Hero from '../components/homepageHero/Hero'
 import Featuredtours from '../components/feaaturedtours/Featuredtours'
 import AboutusPreview from '../components/Aboutuspreview/AboutusPreview'
-import Testimonials from '../components/Testimonials/Testimonials'
+// import Testimonials from '../components/Testimonials/Testimonials'
 import Services from '../components/Services/Services'
 
 function Homepage() {
@@ -12,7 +12,7 @@ function Homepage() {
         <Featuredtours/>
         <Services/>
         <AboutusPreview/>
-        <Testimonials/>
+        {/* <Testimonials/> */}
         </div>
   )
 }
