@@ -11,112 +11,105 @@ function Featuredtours() {
   const [showModal, setShowModal] = useState(false);
 
   // Sample tour data
-  const tours = [
-    {
-      id: 1,
-      title: "Bali Paradise Adventure",
-      location: "Bali, Indonesia",
-      duration: "7 Days",
-      groupSize: "12 People",
-      price: "$1,299",
-      rating: 4.8,
-      image: "https://images.unsplash.com/photo-1518544866330-95a2bfb5f8e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      featured: true,
-      description: "Experience the tropical paradise of Bali with its lush jungles, stunning beaches, and vibrant culture. This adventure includes surfing lessons, temple visits, and a sunrise hike up Mount Batur.",
-      itinerary: [
-        "Day 1: Arrival in Denpasar, transfer to Ubud",
-        "Day 2: Sacred Monkey Forest and Tegalalang Rice Terrace",
-        "Day 3: Sunrise hike at Mount Batur, hot springs visit",
-        "Day 4: Surfing lessons in Canggu",
-        "Day 5: Day trip to Nusa Penida island",
-        "Day 6: Uluwatu Temple and Kecak fire dance",
-        "Day 7: Departure"
-      ],
-      inclusions: [
-        "6 nights accommodation in 4-star hotels",
-        "All transportation between locations",
-        "Professional English-speaking guide",
-        "All activities mentioned",
-        "Daily breakfast"
-      ]
-    },
-    {
-      id: 2,
-      title: "Italian Cultural Journey",
-      location: "Rome, Florence, Venice",
-      duration: "10 Days",
-      groupSize: "15 People",
-      price: "$2,199",
-      rating: 4.9,
-      image: "https://images.unsplash.com/photo-1531572753322-ad063cecc140?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      featured: true,
-      description: "Immerse yourself in Italy's rich history, art, and cuisine as you travel from Rome's ancient ruins to Florence's Renaissance masterpieces and Venice's romantic canals.",
-      itinerary: [
-        "Day 1-3: Rome - Colosseum, Vatican City, Trevi Fountain",
-        "Day 4-6: Florence - Uffizi Gallery, Duomo, Tuscan countryside",
-        "Day 7-9: Venice - Grand Canal, St. Mark's Basilica, Murano glass",
-        "Day 10: Departure"
-      ],
-      inclusions: [
-        "9 nights accommodation in boutique hotels",
-        "All intercity transportation",
-        "Guided tours in each city",
-        "3 cooking classes",
-        "Daily breakfast and 3 dinners"
-      ]
-    },
-    {
-      id: 3,
-      title: "Japanese Heritage Tour",
-      location: "Tokyo, Kyoto, Osaka",
-      duration: "12 Days",
-      groupSize: "10 People",
-      price: "$3,499",
-      rating: 5.0,
-      image: "https://images.unsplash.com/photo-1492571350019-22de08371fd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      featured: false,
-      description: "Discover Japan's perfect blend of ancient traditions and cutting-edge modernity as you explore Tokyo's neon lights, Kyoto's serene temples, and Osaka's culinary delights.",
-      itinerary: [
-        "Day 1-4: Tokyo - Shibuya, Asakusa, day trip to Hakone",
-        "Day 5-8: Kyoto - Golden Pavilion, Fushimi Inari, tea ceremony",
-        "Day 9-11: Osaka - Dotonbori, Universal Studios, castle",
-        "Day 12: Departure"
-      ],
-      inclusions: [
-        "11 nights accommodation (ryokan and hotels)",
-        "Japan Rail Pass for transportation",
-        "Traditional kaiseki dinner",
-        "Sumo wrestling tournament tickets",
-        "All breakfasts and 3 dinners"
-      ]
-    },
-    {
-      id: 4,
-      title: "African Safari Expedition",
-      location: "Serengeti, Tanzania",
-      duration: "8 Days",
-      groupSize: "8 People",
-      price: "$2,899",
-      rating: 4.7,
-      image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-      featured: true,
-      description: "Witness the breathtaking wildlife of the Serengeti on this once-in-a-lifetime safari adventure, featuring the Big Five and the Great Migration (seasonal).",
-      itinerary: [
-        "Day 1: Arrival in Arusha",
-        "Day 2-3: Tarangire National Park",
-        "Day 4-6: Serengeti National Park",
-        "Day 7: Ngorongoro Crater",
-        "Day 8: Departure"
-      ],
-      inclusions: [
-        "7 nights in luxury safari lodges and tented camps",
-        "All game drives in 4x4 vehicles",
-        "Professional safari guide",
-        "All park fees",
-        "All meals and drinks (excluding alcohol)"
-      ]
-    }
-  ];
+const tours = [
+  {
+    id: 1,
+    title: "Masai Mara Safari Adventure",
+    location: "Masai Mara, Kenya",
+    duration: "5 Days",
+    groupSize: "12 People",
+    rating: 4.9,
+    image: "https://plus.unsplash.com/premium_photo-1661962656908-24102eafa8d4?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWFhc2FpJTIwbWFyYXxlbnwwfHwwfHx8MA%3D%3D",
+    featured: true,
+    description: "Experience Kenya's most famous wildlife reserve with spectacular game viewing opportunities, including the Big Five and the Great Migration (seasonal).",
+    itinerary: [
+      "Day 1: Arrival in Nairobi, transfer to Masai Mara",
+      "Day 2-3: Full day game drives in Masai Mara",
+      "Day 4: Morning game drive, visit Maasai village",
+      "Day 5: Departure to Nairobi"
+    ],
+    inclusions: [
+      "4 nights accommodation in safari lodges",
+      "All game drives in 4x4 vehicles",
+      "Professional safari guide",
+      "All park entry fees",
+      "All meals during safari"
+    ]
+  },
+  {
+    id: 2,
+    title: "Mount Kenya Trekking Expedition",
+    location: "Mount Kenya",
+    duration: "6 Days",
+    groupSize: "8 People",
+    rating: 4.7,
+    image: "https://images.unsplash.com/photo-1621414050946-1b936a78491f?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    featured: true,
+    description: "Challenge yourself with this trek to Point Lenana (4,985m), the third highest peak of Mount Kenya, passing through diverse vegetation zones and stunning scenery.",
+    itinerary: [
+      "Day 1: Nairobi to Naro Moru, start trek to Met Station",
+      "Day 2: Trek to Mackinder's Camp",
+      "Day 3: Acclimatization day at Mackinder's",
+      "Day 4: Summit attempt (Point Lenana), descend to Shipton's",
+      "Day 5: Descend to park gate",
+      "Day 6: Return to Nairobi"
+    ],
+    inclusions: [
+      "5 nights accommodation (mountain huts/camping)",
+      "All park fees and trekking permits",
+      "Professional mountain guides and porters",
+      "All meals during the trek",
+      "Transport from/to Nairobi"
+    ]
+  },
+  {
+    id: 3,
+    title: "Diani Beach Retreat",
+    location: "Diani Beach, Kenya",
+    duration: "7 Days",
+    groupSize: "15 People",
+    rating: 4.8,
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    featured: false,
+    description: "Relax on Kenya's most beautiful beach with its white sands and turquoise waters, with optional activities including snorkeling, scuba diving, and dolphin watching.",
+    itinerary: [
+      "Day 1: Arrival in Mombasa, transfer to Diani",
+      "Day 2-5: Beach relaxation and optional activities",
+      "Day 6: Shimba Hills day trip",
+      "Day 7: Departure"
+    ],
+    inclusions: [
+      "6 nights accommodation in beach resort",
+      "Airport transfers",
+      "Daily breakfast",
+      "Shimba Hills day trip with game drive",
+      "Snorkeling equipment"
+    ]
+  },
+  {
+    id: 4,
+    title: "Amboseli Wildlife Safari",
+    location: "Amboseli National Park",
+    duration: "4 Days",
+    groupSize: "10 People",
+    rating: 4.6,
+    image: "https://images.unsplash.com/photo-1678092369673-94f97a97d4e5?q=80&w=1958&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    featured: true,
+    description: "Enjoy spectacular views of Mount Kilimanjaro while observing large herds of elephants and diverse wildlife in this iconic Kenyan national park.",
+    itinerary: [
+      "Day 1: Nairobi to Amboseli",
+      "Day 2-3: Morning and evening game drives",
+      "Day 4: Morning game drive, return to Nairobi"
+    ],
+    inclusions: [
+      "3 nights accommodation in safari lodge",
+      "All game drives",
+      "Park entry fees",
+      "Professional guide",
+      "All meals during safari"
+    ]
+  }
+];
 
   // Render star rating
   const renderStars = (rating:any) => {
@@ -165,7 +158,6 @@ function Featuredtours() {
             <div className="col-lg-3 col-md-6 mb-4" key={tour.id}>
               <div className="tour-card">
                 <div className="tour-image" style={{ backgroundImage: `url(${tour.image})` }}>
-                  <div className="price-tag-featured">{tour.price}</div>
                 </div>
                 <div className="tour-content">
                   <div className="tour-rating">
