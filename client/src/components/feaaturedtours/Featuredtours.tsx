@@ -3,6 +3,7 @@ import './featuredtours.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import {toast,Toaster} from 'sonner'
 
 function Featuredtours() {
   const navigate = useNavigate();
@@ -149,6 +150,7 @@ function Featuredtours() {
 
   return (
     <section className="featured-tours">
+      <Toaster richColors position='top-center'/>
       <div className="container">
         <div className="section-header text-center mb-5">
           <h6 className="section-subtitle-featured">EXPLORE OUR</h6>
@@ -272,9 +274,15 @@ function Featuredtours() {
               </div>
             </div>
             <div className="tour-modal-footer">
-              <button onClick={()=>navigate('/booking')} className="btn btn-primary book-now-btn">
-                Book Now
-              </button>
+              <button
+  onClick={() => {
+    toast.info("We're working on automating this. For now, create/login and set up your dream tour.");
+    setTimeout(() => navigate('/login'), 4000);
+  }}
+  className="btn btn-primary book-now-btn"
+>
+  Book Now
+</button>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import {toast,Toaster} from 'sonner'
 import './tourpage.css';
+import { useNavigate } from 'react-router-dom';
 
 interface Accommodation {
   id: string;
@@ -35,6 +36,7 @@ interface Amenity {
 }
 
 function ToursPage() {
+  const navigate = useNavigate()
   const apiUrl = import.meta.env.VITE_travel_api;
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedStars, setSelectedStars] = useState<number[]>([]);
@@ -352,7 +354,15 @@ function ToursPage() {
       </div>
       
       <div className="tour-modal-footer">
-        <button onClick={()=>toast.info("This feature will be available soon thankyou!!!!")} className="tour-modal-primary-btn">Book Now</button>
+        <button
+  onClick={() => {
+    toast.info("We're working on automating this. For now, create/login and set up your dream tour.");
+    setTimeout(() => navigate('/login'), 4000);
+  }}
+  className="tour-modal-primary-btn"
+>
+  Book Now
+</button>
         <button className="tour-modal-secondary-btn" onClick={closeModal}>
           Close
         </button>
