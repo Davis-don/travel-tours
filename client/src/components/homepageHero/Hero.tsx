@@ -1,8 +1,10 @@
 import { FaArrowRight } from 'react-icons/fa';
 import './hero.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 
 function Hero() {
+  const navigate = useNavigate()
   return (
     <section className="hero-section">
       <div className="hero-image"></div>
@@ -22,7 +24,7 @@ function Hero() {
                 and create memories that will last a lifetime with our expertly curated travel experiences.
               </p>
               <div className="hero-cta">
-                <button className="cta-button">
+                <button onClick={()=>navigate('/tours')} className="cta-button">
                   Start Your Adventure <FaArrowRight className="cta-icon" />
                 </button>
                 <div className="social-proof">
