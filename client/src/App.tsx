@@ -2,7 +2,6 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Homepage from './pages/Homepage';
 import Layout from './components/Layout/Layout';
-import ToursPage from './pages/ToursPage';
 import Aboutpage from './pages/Aboutpage/Aboutpage';
 import Contactpage from './pages/Contactpage';
 import Agentaccount from './pages/Agentaccount';
@@ -13,6 +12,7 @@ import Clientdashboard from './pages/Clientdashboard/Clientdashboard';
 import AdminDashboard from './pages/Admin/Admindashboard';
 import Customercare from './pages/Customercare page/Customercare';
 import Paymentpage from './pages/Paymentpage/Paymentpage';
+import AccommodationExplorer from './pages/ToursPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
           <Route path="/" element={<Layout><Homepage/></Layout>} />
           
           <Route path="/admin" element={<AdminDashboard/>} />
-          <Route path="/tours" element={<Layout><ToursPage/></Layout>} />
+          <Route path="/tours" element={<Layout><AccommodationExplorer/></Layout>} />
           <Route path="/about" element={<Layout><Aboutpage/></Layout>} />
           <Route path="/contact" element={<Layout><Contactpage/></Layout>} />
           <Route path="/login" element={<Layout><Login/></Layout>} />

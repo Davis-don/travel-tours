@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { Toaster, toast } from 'sonner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const apiUrl = import.meta.env.VITE_travel_api;
+
+const urlAccomodation=import.meta.env.VITE_travel_api
 
 interface RoomType {
   id: string;
@@ -26,7 +27,7 @@ function Roomtype() {
   } = useQuery<RoomType[]>({
     queryKey: ['roomTypes'],
     queryFn: async () => {
-      const res = await fetch(`${apiUrl}/room-type/fetch-all-room-types`);
+      const res = await fetch(`${urlAccomodation}/room-type/fetch-all-room-types`);
       if (!res.ok) throw new Error('Failed to fetch room types');
       return res.json();
     },
@@ -35,7 +36,7 @@ function Roomtype() {
   // Add room type
   const addMutation = useMutation({
     mutationFn: async (newRoom: { name: string; capacity: number }) => {
-      const res = await fetch(`${apiUrl}/room-type/add-room-type`, {
+      const res = await fetch(`${urlAccomodation}/room-type/add-room-type`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newRoom),
@@ -55,7 +56,7 @@ function Roomtype() {
   // Delete room type
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const res = await fetch(`${apiUrl}/room-type/delete-room-type-by-id?id=${id}`, {
+      const res = await fetch(`${urlAccomodation}/room-type/delete-room-type-by-id?id=${id}`, {
         method: 'DELETE',
       });
       if (!res.ok) throw new Error('Failed to delete room type');

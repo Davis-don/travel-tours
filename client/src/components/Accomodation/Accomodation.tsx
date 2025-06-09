@@ -63,6 +63,7 @@ interface Amenity {
 }
 
 function Accomodation() {
+  
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -118,7 +119,7 @@ function Accomodation() {
   } = useQuery<AccommodationType[]>({
     queryKey: ['accommodationTypes'],
     queryFn: async () => {
-      const res = await fetch(`${apiUrl}/accommodation-type/fetch-all`);
+      const res = await fetch(`${apiUrl}/accomodation-type/accommodation-types`);
       if (!res.ok) throw new Error('Failed to fetch accommodation types');
       return res.json();
     },
@@ -142,7 +143,7 @@ function Accomodation() {
   } = useQuery<RoomType[]>({
     queryKey: ['roomTypes'],
     queryFn: async () => {
-      const res = await fetch(`${apiUrl}/room-type/fetch-all`);
+      const res = await fetch(`${apiUrl}/room-type/fetch-all-room-types`);
       if (!res.ok) throw new Error('Failed to fetch room types');
       return res.json();
     },
