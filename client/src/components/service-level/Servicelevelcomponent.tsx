@@ -48,30 +48,40 @@ function Servicelevelcomponent() {
     },
     onError: () => toast.error('Error adding service level'),
   });
+// Delete service level
+const deleteMutation = useMutation({
+  mutationFn: async (id: string) => {
+    const res = await fetch(`${apiUrl}/service-level/delete-service-level?id=${id}`, {
+      method: 'DELETE',
+    });
 
-  // Delete service level
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`${apiUrl}/service-level/delete-service-level?id=${id}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete service level');
-      return res.json();
-    },
-    onMutate: (id: string) => {
-      setDeletingId(id); // ✅ Set ID before delete
-    },
-    onSuccess: () => {
-      toast.success('Service level deleted!');
-      refetch();
-    },
-    onError: () => {
-      toast.error('Error deleting service level');
-    },
-    onSettled: () => {
-      setDeletingId(null); // ✅ Reset after done
-    },
-  });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Failed to delete service level');
+    }
+
+    return data;
+  },
+
+  onMutate: (id: string) => {
+    setDeletingId(id); // ✅ Set ID before delete
+  },
+
+  onSuccess: (data) => {
+    toast.success(data.message || 'Service level deleted!');
+    refetch();
+  },
+
+  onError: (error: any) => {
+    toast.error(error.message || 'Error deleting service level');
+  },
+
+  onSettled: () => {
+    setDeletingId(null); // ✅ Reset after done
+  },
+});
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
