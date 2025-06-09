@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
+import {toast,Toaster} from 'sonner'
 import './tourpage.css';
 
 interface Accommodation {
@@ -145,6 +146,7 @@ function ToursPage() {
 
   return (
     <div className="tours-page">
+      <Toaster position='top-center' richColors/>
       {/* Hero Section */}
       <div className="hero-section">
         <div className="hero-overlay"></div>
@@ -350,7 +352,7 @@ function ToursPage() {
       </div>
       
       <div className="tour-modal-footer">
-        <button className="tour-modal-primary-btn">Book Now</button>
+        <button onClick={()=>toast.info("This feature will be available soon thankyou!!!!")} className="tour-modal-primary-btn">Book Now</button>
         <button className="tour-modal-secondary-btn" onClick={closeModal}>
           Close
         </button>
