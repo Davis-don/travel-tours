@@ -54,22 +54,35 @@ function Roomtype() {
   });
 
   // Delete room type
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`${urlAccomodation}/room-type/delete-room-type-by-id?id=${id}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete room type');
-      return res.json();
-    },
-    onMutate: (id: string) => setDeletingId(id),
-    onSuccess: () => {
-      toast.success('Room type deleted!');
-      refetch();
-    },
-    onError: () => toast.error('Error deleting room type'),
-    onSettled: () => setDeletingId(null),
-  });
+const deleteMutation = useMutation({
+  mutationFn: async (id: string) => {
+    const res = await fetch(`${urlAccomodation}/room-type/delete-room-type-by-id?id=${id}`, {
+      method: 'DELETE',
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Failed to delete room type');
+    }
+
+    return data;
+  },
+
+  onMutate: (id: string) => setDeletingId(id),
+
+  onSuccess: (data) => {
+    toast.success(data.message || 'Room type deleted!');
+    refetch();
+  },
+
+  onError: (error: any) => {
+    toast.error(error.message || 'Error deleting room type');
+  },
+
+  onSettled: () => setDeletingId(null),
+});
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -49,23 +49,36 @@ function Amenities() {
     onError: () => toast.error('Error adding amenity'),
   });
 
-  // Delete amenity
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`${apiUrl}/amenity/delete-amenity-by-id?id=${id}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete amenity');
-      return res.json();
-    },
-    onMutate: (id: string) => setDeletingId(id),
-    onSuccess: () => {
-      toast.success('Amenity deleted!');
-      refetch();
-    },
-    onError: () => toast.error('Error deleting amenity'),
-    onSettled: () => setDeletingId(null),
-  });
+// Delete amenity
+const deleteMutation = useMutation({
+  mutationFn: async (id: string) => {
+    const res = await fetch(`${apiUrl}/amenity/delete-amenity-by-id?id=${id}`, {
+      method: 'DELETE',
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Failed to delete amenity');
+    }
+
+    return data;
+  },
+
+  onMutate: (id: string) => setDeletingId(id),
+
+  onSuccess: (data) => {
+    toast.success(data.message || 'Amenity deleted!');
+    refetch();
+  },
+
+  onError: (error: any) => {
+    toast.error(error.message || 'Error deleting amenity');
+  },
+
+  onSettled: () => setDeletingId(null),
+});
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

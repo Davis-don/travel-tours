@@ -49,23 +49,36 @@ function AccommodationTypeComponent() {
     onError: () => toast.error('Error adding accommodation type'),
   });
 
-  // Delete accommodation type
-  const deleteMutation = useMutation({
-    mutationFn: async (id: string) => {
-      const res = await fetch(`${apiUrl}/accomodation-type/delete-accommodation-type?id=${id}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete accommodation type');
-      return res.json();
-    },
-    onMutate: (id: string) => setDeletingId(id),
-    onSuccess: () => {
-      toast.success('Accommodation type deleted!');
-      refetch();
-    },
-    onError: () => toast.error('Error deleting accommodation type'),
-    onSettled: () => setDeletingId(null),
-  });
+ // Delete accommodation type
+const deleteMutation = useMutation({
+  mutationFn: async (id: string) => {
+    const res = await fetch(`${apiUrl}/accomodation-type/delete-accommodation-type?id=${id}`, {
+      method: 'DELETE',
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || 'Failed to delete accommodation type');
+    }
+
+    return data;
+  },
+
+  onMutate: (id: string) => setDeletingId(id),
+
+  onSuccess: (data) => {
+    toast.success(data.message || 'Accommodation type deleted!');
+    refetch();
+  },
+
+  onError: (error: any) => {
+    toast.error(error.message || 'Error deleting accommodation type');
+  },
+
+  onSettled: () => setDeletingId(null),
+});
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
