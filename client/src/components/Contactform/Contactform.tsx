@@ -1,9 +1,11 @@
 import './contactform.css';
-import { FaPhone, FaEnvelope, FaWhatsapp, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaWhatsapp, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import {toast, Toaster} from 'sonner'
 
 function Contactform() {
   return (
     <div className="voyago-contact-section">
+      <Toaster position='top-center' richColors/>
       <div className="voyago-contact-header">
         <h2>Get In Touch</h2>
         <p>Have questions about your next adventure? Our team is ready to help you plan the perfect journey.</p>
@@ -17,7 +19,7 @@ function Contactform() {
             </div>
             <div className="voyago-contact-details">
               <h3>Call Us</h3>
-              <p>+1 (555) 123-4567</p>
+              <p>+254 757 783 084</p>
               <p>Mon-Fri: 9am-6pm</p>
             </div>
           </div>
@@ -28,7 +30,7 @@ function Contactform() {
             </div>
             <div className="voyago-contact-details">
               <h3>Email Us</h3>
-              <a href="mailto:hello@voyago.com">hello@voyago.com</a>
+              <a href="mailto:heartsjungle@gmail.com">heartsjungle@gmail.com</a>
               <p>Response within 24 hours</p>
             </div>
           </div>
@@ -39,12 +41,12 @@ function Contactform() {
             </div>
             <div className="voyago-contact-details">
               <h3>WhatsApp</h3>
-              <a href="https://wa.me/15551234567">+1 (555) 123-4567</a>
+              <a href="https://wa.me/254757783084">+254 757 783 084</a>
               <p>Instant messaging</p>
             </div>
           </div>
           
-          <div className="voyago-contact-card">
+          {/* <div className="voyago-contact-card">
             <div className="voyago-contact-icon">
               <FaMapMarkerAlt />
             </div>
@@ -53,7 +55,7 @@ function Contactform() {
               <p>123 Adventure Lane</p>
               <p>Barcelona, Spain 08001</p>
             </div>
-          </div>
+          </div> */}
           
           <div className="voyago-social-links">
             <a href="#" className="voyago-social-link"><FaFacebook /></a>
@@ -104,7 +106,7 @@ function Contactform() {
               />
             </div>
             
-            <button type="submit" className="voyago-submit-btn">Send Message</button>
+            <button onClick={()=>toast.info("we are currently on this feature be patient with us thankyou!!")} type="submit" className="voyago-submit-btn">Send Message</button>
           </form>
         </div>
       </div>

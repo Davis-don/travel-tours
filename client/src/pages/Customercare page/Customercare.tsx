@@ -35,8 +35,8 @@ function Customercare() {
             </div>
             <h3>Immediate Assistance</h3>
             <p>Call us now for urgent support</p>
-            <a href="tel:+254758420860" className="contact-link call">
-              +254 758 420 860
+            <a href="tel:+254757783084" className="contact-link call">
+              +254 757 783 084
             </a>
             <p className="availability">
               <FaClock /> Available 24/7
@@ -50,12 +50,12 @@ function Customercare() {
             <h3>WhatsApp Support</h3>
             <p>Chat with our support team</p>
             <a 
-              href="https://wa.me/254758420860" 
+              href="https://wa.me/254757783084" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="contact-link whatsapp-link"
             >
-              +254 758 420 860
+              +254 757 783 084
             </a>
             <p className="response-time">
               <FaHeadset /> Typically replies within 5 minutes
