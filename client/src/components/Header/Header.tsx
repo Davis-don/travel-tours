@@ -1,5 +1,6 @@
 import { FaBars, FaUser } from 'react-icons/fa';
-import { MdTravelExplore } from 'react-icons/md';
+import { GiJungle } from 'react-icons/gi';
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './header.css';
@@ -27,10 +28,10 @@ function Header() {
 
       <nav className="navbar navbar-expand-lg navbar-dark main-navigation">
         <div className="container">
-          <Link className="navbar-brand" to="/">
-            <MdTravelExplore className="logo-icon" />
-            <span className="brand-name">ExploreEase</span>
-          </Link>
+         <Link className="navbar-brand" to="/">
+  <GiJungle className="logo-icon" />
+  <span className="brand-name">JungleHearts Travels</span>
+</Link>
 
           <button 
             className="navbar-toggler" 
