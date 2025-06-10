@@ -1,8 +1,10 @@
 
 import './footer.css';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaInstagram, FaTripadvisor } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaFacebook, FaTwitter, FaInstagram, FaTripadvisor } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <footer className="footer">
       <div className="footer-top">
@@ -22,19 +24,19 @@ const Footer = () => {
         <div className="footer-column">
           <h3 className="footer-heading">Quick Links</h3>
           <ul className="footer-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/tours">Tours</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li onClick={()=>navigate("/")}><a>Home</a></li>
+            <li onClick={()=>navigate("/tours")}><a>Tours</a></li>
+            <li onClick={()=>navigate("/about")}><a>About Us</a></li>
+            <li onClick={()=>navigate("/contact")}><a>Contact</a></li>
           </ul>
         </div>
 
         <div className="footer-column">
           <h3 className="footer-heading">Contact Info</h3>
           <ul className="footer-contact">
-            <li><FaPhone /> +1 (555) 123-4567</li>
-            <li><FaEnvelope /> info@tourcompany.com</li>
-            <li><FaMapMarkerAlt /> 123 Travel St, Adventure City</li>
+            <li><FaPhone /> +254 757 783 084</li>
+            <li><FaEnvelope /> heartsjungle@gmail.com</li>
+            {/* <li><FaMapMarkerAlt /> 123 Travel St, Adventure City</li> */}
           </ul>
         </div>
 

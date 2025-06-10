@@ -9,7 +9,7 @@ function Hero() {
       <div className="voyago-hero-content">
         <h1>Discover the World Differently</h1>
         <p>
-          At Voyago, we don’t just take you places—we craft unforgettable stories. 
+          At JungleHearts, we don’t just take you places—we craft unforgettable stories. 
           Founded in 2025, we’re redefining travel with immersive, local-led adventures 
           that go beyond the guidebook.
         </p>

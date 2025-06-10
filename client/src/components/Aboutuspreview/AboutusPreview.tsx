@@ -26,42 +26,42 @@ function AboutusPreview() {
               <h6 className="section-subtitle-story-preview">OUR STORY</h6>
               <h2 className="section-title-preview">Creating Memorable Travel Experiences</h2>
               <p className="about-text-preview">
-                Founded in 2010, ExploreEase began with a simple mission: to help people discover the world's most incredible destinations through authentic, well-crafted travel experiences. What started as a small team of passionate travelers has grown into a trusted name in adventure tourism.
-              </p>
+  JungleHearts Travels was born from a deep love for adventure and a desire to bring travelers closer to the wild, untamed beauty of the world. We specialize in crafting unforgettable journeys—where lush rainforests, hidden trails, and heart-pounding experiences meet the warmth of local cultures. Our expert guides and carefully designed itineraries ensure every trip is as seamless as it is extraordinary. Whether trekking through remote jungles or relaxing in eco-luxury retreats, we turn wanderlust into lifelong memories.
+</p>
               <p className="about-text-preview">
                 We believe travel has the power to change lives. That's why we carefully design each itinerary to immerse you in local cultures while providing comfort, safety, and unforgettable moments.
               </p>
               
-              <div className="stats-grid">
-                <div className="stat-item">
-                  <FaGlobeAmericas className="stat-icon" />
-                  <div>
-                    <span className="stat-number">50+</span>
-                    <p className="stat-label">Destinations</p>
-                  </div>
-                </div>
-                <div className="stat-item">
-                  <IoIosPeople className="stat-icon" />
-                  <div>
-                    <span className="stat-number">10,000+</span>
-                    <p className="stat-label">Happy Travelers</p>
-                  </div>
-                </div>
-                <div className="stat-item">
-                  <FaUmbrellaBeach className="stat-icon" />
-                  <div>
-                    <span className="stat-number">200+</span>
-                    <p className="stat-label">Tours</p>
-                  </div>
-                </div>
-                <div className="stat-item">
-                  <FaAward className="stat-icon" />
-                  <div>
-                    <span className="stat-number">15</span>
-                    <p className="stat-label">Industry Awards</p>
-                  </div>
-                </div>
-              </div>
+             <div className="stats-grid">
+  <div className="stat-item">
+    <FaGlobeAmericas className="stat-icon" />
+    <div>
+      <span className="stat-number">32</span>
+      <p className="stat-label">Destinations</p>
+    </div>
+  </div>
+  <div className="stat-item">
+    <IoIosPeople className="stat-icon" />
+    <div>
+      <span className="stat-number">8,500+</span>
+      <p className="stat-label">Happy Travelers</p>
+    </div>
+  </div>
+  <div className="stat-item">
+    <FaUmbrellaBeach className="stat-icon" />
+    <div>
+      <span className="stat-number">120+</span>
+      <p className="stat-label">Curated Tours</p>
+    </div>
+  </div>
+  <div className="stat-item">
+    <FaAward className="stat-icon" />
+    <div>
+      <span className="stat-number">6</span>
+      <p className="stat-label">Industry Awards</p>
+    </div>
+  </div>
+</div>
               
               <button onClick={()=>navigate('/about')} className="btn btn-primary mt-4 button-story fs-4">
                 Learn More About Us

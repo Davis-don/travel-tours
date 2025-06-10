@@ -32,7 +32,7 @@ function Hero() {
                     ★★★★★ <span>5.0 (2.4k reviews)</span>
                   </div>
                   <div className="destinations-count">
-                    <strong>150+</strong> Destinations Worldwide
+                    <strong>150+</strong> Destinations Countrywide
                   </div>
                 </div>
               </div>
@@ -41,10 +41,10 @@ function Hero() {
         </div>
       </div>
       
-      {/* <div className="scroll-indicator">
+      <div className="scroll-indicator">
         <span>Scroll Down</span>
         <div className="arrow-down"></div>
-      </div> */}
+      </div>
     </section>
   );
 }

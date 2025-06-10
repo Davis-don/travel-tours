@@ -8,39 +8,42 @@ function Companystory() {
         <p className="voyago-subtitle">How a simple idea transformed into unforgettable adventures</p>  
       </div>  
 
-      <div className="voyago-timeline">  
-        <div className="voyago-event">  
-          <h2 className="voyago-event-title">The Spark</h2>  
-          <p className="voyago-event-date">January 2025</p>  
-          <p className="voyago-event-desc">  
-            It all began on a backpacking trip through the Balkans. Our founders, Alex and Maria, realized that most tours felt rigid and impersonal. They dreamed of a travel experience where every journey felt like an adventure with friends—not just a checklist of tourist spots.  
-          </p>  
-        </div>  
 
-        <div className="voyago-event">  
-          <h2 className="voyago-event-title">First Steps</h2>  
-          <p className="voyago-event-date">June 2025</p>  
-          <p className="voyago-event-desc">  
-            With nothing but passion and a laptop, they launched Voyago in a tiny co-working space in Barcelona. Their first tour—a hidden-gems exploration of Costa Brava—sold out in 48 hours. Travelers loved the mix of local storytelling, spontaneous detours, and small-group intimacy.  
-          </p>  
-        </div>  
 
-        <div className="voyago-event">  
-          <h2 className="voyago-event-title">The Turning Point</h2>  
-          <p className="voyago-event-date">November 2025</p>  
-          <p className="voyago-event-desc">  
-            A viral TikTok video of a surprise flamenco performance in a Seville orange grove put Voyago on the map. Suddenly, travelers weren’t just booking trips—they were joining a movement. By year’s end, we’d expanded to 12 destinations across Europe, each with its own "Voyago twist."  
-          </p>  
-        </div>  
 
-        <div className="voyago-event">  
-          <h2 className="voyago-event-title">Today & Beyond</h2>  
-          <p className="voyago-event-date">2026 & Forward</p>  
-          <p className="voyago-event-desc">  
-            Now, Voyago isn’t just a tour company—it’s a community of curious explorers. We’ve introduced "Storyteller Guides" (locals who weave history into immersive experiences), "Surprise Routes" (where travelers vote on daily adventures), and eco-conscious travel initiatives. Next stop? Rewriting the rules of global exploration.  
-          </p>  
-        </div>  
-      </div>  
+   <div className="voyago-timeline">  
+  <div className="voyago-event">  
+    <h2 className="voyago-event-title">The Beginning</h2>  
+    <p className="voyago-event-date">January 2025</p>  
+   <p className="voyago-event-desc">
+  JungleHearts grew from Loise's vision for transformative eco-tourism. With a decade of experience creating sustainable travel experiences across East Africa, she recognized the need for adventures that deeply connect travelers with nature while supporting local communities. Her hands-on expertise in ethical tour operations forms the heart of JungleHearts' philosophy.
+</p>
+  </div>  
+
+  <div className="voyago-event">  
+    <h2 className="voyago-event-title">Building the Dream</h2>  
+    <p className="voyago-event-date">June 2025</p>  
+    <p className="voyago-event-desc">  
+      The team grew to include Nyandarua’s local guides and conservationists, united by a mission: to create travel experiences that protect ecosystems and empower communities. Prototype itineraries—focused on Kenya’s hidden gems—were crafted, tested, and refined with sustainability at their core.  
+    </p>  
+  </div>  
+
+  <div className="voyago-event">  
+    <h2 className="voyago-event-title">First Milestone</h2>  
+    <p className="voyago-event-date">November 2025 (Projected)</p>  
+    <p className="voyago-event-desc">  
+      JungleHearts prepares to launch its inaugural eco-trek through the Aberdare Mountains, with itineraries designed to minimize environmental impact while creating meaningful cultural exchanges. The company has begun discussions with local communities and conservation experts to ensure its operations align with its ethical travel philosophy.  
+    </p>  
+</div>  
+
+<div className="voyago-event">  
+    <h2 className="voyago-event-title">The Future</h2>  
+    <p className="voyago-event-date">2026 & Beyond</p>  
+    <p className="voyago-event-desc">  
+      JungleHearts plans to expand across East Africa, developing innovative concepts like "Community-Led Journeys" (co-designed with local partners) and "Conservation-Focused Safaris". Every initiative remains grounded in the founders' vision: that travel should actively contribute to protecting wilderness areas and supporting local communities.  
+    </p>  
+</div> 
+</div>
 
       <div className="voyago-mission">  
         <h2 className="voyago-mission-title">Our Mission</h2>  
