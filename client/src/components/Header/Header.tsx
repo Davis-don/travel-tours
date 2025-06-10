@@ -1,6 +1,4 @@
 import { FaBars, FaUser } from 'react-icons/fa';
-import { GiJungle } from 'react-icons/gi';
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './header.css';
@@ -28,10 +26,15 @@ function Header() {
 
       <nav className="navbar navbar-expand-lg navbar-dark main-navigation">
         <div className="container">
-         <Link className="navbar-brand" to="/">
-  <GiJungle className="logo-icon" />
-  <span className="brand-name">JungleHearts Travels</span>
-</Link>
+          <Link className="navbar-brand" to="/">
+            <img 
+              src="/logo.png" 
+              alt="JungleHearts Travel Logo"
+              className="logo-img"
+              height="40"
+            />
+            <span className="brand-name">JungleHearts Travel</span>
+          </Link>
 
           <button 
             className="navbar-toggler" 
@@ -39,7 +42,7 @@ function Header() {
             data-bs-toggle="collapse" 
             data-bs-target="#navbarCollapse"
             aria-label="Toggle navigation"
-          onClick={()=>toggleSidebar()}
+            onClick={()=>toggleSidebar()}
           >
             <FaBars />
           </button>
@@ -67,9 +70,6 @@ function Header() {
             </ul>
             
             <div className="header-actions d-none d-lg-flex">
-              {/* <button className="btn btn-search">
-                <FaSearch />
-              </button> */}
               <button onClick={() => navigate("/login")} className="btn btn-primary fs-4">
                 Get started
               </button>
