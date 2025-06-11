@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { FaTrash, FaUserPlus, FaSpinner } from 'react-icons/fa';
 import { useAuthStore } from '../../Store/useauthstore';
+import { toast, Toaster } from 'sonner';
 
 interface Employee {
   id: string;
@@ -14,6 +15,7 @@ interface Employee {
   phoneNumber: string;
   email: string;
   role: string;
+  createdAt: string;
 }
 
 interface NewAgent {
@@ -31,83 +33,95 @@ interface NewAgent {
 
 interface ApiResponse {
   message: string;
-  [key: string]: any;
+  success: boolean;
+  data?: Employee[];
+  error?: string;
 }
 
 const Agents: React.FC = () => {
-    const token = useAuthStore((state) => state.token);
+  const token = useAuthStore((state) => state.token);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const apiUrl = import.meta.env.VITE_travel;
-  
 
-const { data: employees, isLoading, isError } = useQuery<Employee[]>({
-  queryKey: ['employees'],
-  queryFn: async () => {
-    try {
-     
-      const response = await axios.get<Employee[]>(`${apiUrl}/employee/fetch-all`, {
+  const { data: employees = [], isLoading, isError } = useQuery<Employee[], AxiosError<ApiResponse>>({
+    queryKey: ['employees'],
+    queryFn: async () => {
+      try {
+        const response = await axios.get<ApiResponse>(`${apiUrl}/employee/fetch-all`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        });
+
+        if (response.data.success && response.data.data) {
+          return response.data.data;
+        }
+        throw new Error(response.data.message || 'Failed to fetch employees');
+      } catch (error) {
+        const axiosError = error as AxiosError<ApiResponse>;
+        const errorMessage = axiosError.response?.data?.message || axiosError.message;
+        toast.error(errorMessage);
+        throw error;
+      }
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes (replaced cacheTime in v5)
+    refetchInterval: 2000,
+  });
+
+  const deleteEmployeeMutation = useMutation<ApiResponse, AxiosError<ApiResponse>, string>({
+    mutationFn: async (id: string) => {
+      setDeletingId(id);
+      const response = await axios.delete<ApiResponse>(`${apiUrl}/employee/delete/${id}`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${token}`,
+          Authorization: token,
         },
       });
       return response.data;
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      console.error(axiosError.response?.data?.message || 'Failed to fetch employees');
-      throw error;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['employees'] });
+      toast.success(data.message || 'Employee deleted successfully');
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data?.message || error.message;
+      toast.error(errorMessage || 'Failed to delete employee');
+    },
+    onSettled: () => {
+      setDeletingId(null);
+      setDeleteConfirmId(null);
     }
-  },
-  refetchInterval: 2000,
-});
+  });
 
-
-const deleteEmployeeMutation = useMutation({
-  mutationFn: async (id: string) => {
-    setDeletingId(id);
-  
-    await axios.delete<ApiResponse>(`${apiUrl}/employee/delete/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token}`,
-      },
-    });
-  },
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['employees'] });
-  },
-  onError: (error: AxiosError<ApiResponse>) => {
-    console.error(error.response?.data?.message || 'Failed to delete employee');
-  },
-  onSettled: () => {
-    setDeletingId(null);
-    setDeleteConfirmId(null);
-  }
-});
-
-
-const handleAddAgent = async (newAgent: NewAgent) => {
+ const handleAddAgent = async (newAgent: NewAgent): Promise<void> => {
   try {
-  
-    await axios.post<ApiResponse>(
+    const response = await axios.post<ApiResponse>(
       `${apiUrl}/employee/add-employee`,
       newAgent,
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${token}`,
+          Authorization: token,
         },
       }
     );
 
-    queryClient.invalidateQueries({ queryKey: ['employees'] });
-    setShowModal(false);
+    if (response.data.success) {
+      queryClient.invalidateQueries({ queryKey: ['employees'] });
+      setShowModal(false);
+      toast.success(response.data.message || 'Employee added successfully');
+    } else {
+      throw new Error(response.data.message || 'Failed to add employee');
+    }
   } catch (error) {
     const axiosError = error as AxiosError<ApiResponse>;
-    console.error(axiosError.response?.data?.message || 'Failed to add agent');
+    const errorMessage = axiosError.response?.data?.message || axiosError.message;
+    toast.error(errorMessage || 'Failed to add employee');
   }
 };
 
@@ -123,9 +137,6 @@ const handleAddAgent = async (newAgent: NewAgent) => {
   const cancelDelete = () => {
     setDeleteConfirmId(null);
   };
-
-
-
 
   if (isLoading) {
     return (
@@ -147,6 +158,7 @@ const handleAddAgent = async (newAgent: NewAgent) => {
 
   return (
     <div className="agents">
+      <Toaster richColors position="top-center" />
       <div className="card">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h3 className="card-title mb-0">Travel Agents</h3>
@@ -160,7 +172,7 @@ const handleAddAgent = async (newAgent: NewAgent) => {
         </div>
 
         <div className="card-body">
-          {employees?.length === 0 ? (
+          {employees.length === 0 ? (
             <div className="text-center py-4">
               <h5>No employees found</h5>
               <p>Click the button above to add a new employee</p>
@@ -179,7 +191,7 @@ const handleAddAgent = async (newAgent: NewAgent) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {(employees ?? []).map((employee) => (
+                  {employees.map((employee: Employee) => (
                     <tr key={employee.id}>
                       <td>{employee.firstName}</td>
                       <td>{employee.lastName}</td>

@@ -14,8 +14,8 @@ const port = process.env.PORT;
 
 // ✅ Correct and complete CORS setup
 app.use(cors({
-    origin: "https://jungleheartstravel.co.ke",
-    // origin: "http://localhost:5173",
+     origin: "https://jungleheartstravel.co.ke",
+     //origin: "http://localhost:5173",
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
   credentials: true,
   optionsSuccessStatus: 200,
