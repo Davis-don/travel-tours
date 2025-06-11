@@ -50,13 +50,14 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Tour Company. All rights reserved.</p>
-        <div className="footer-legal">
-          <a href="/privacy">Privacy Policy</a>
-          <a href="/terms">Terms of Service</a>
-        </div>
-      </div>
+   <div className="footer-bottom">
+    <p>&copy; {new Date().getFullYear()} Tour Company. All rights reserved.</p>
+    <div className="footer-legal">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+    </div>
+    <p className="footer-credit">Software developed by Teqnovation Solutions | Contact: 0758420860</p>
+</div>
     </footer>
   );
 };
