@@ -12,140 +12,114 @@ const prisma = new PrismaClient();
 const SALT_ROUNDS = 10;
 const SECRET_KEY = process.env.SECRET_KEY;
 
-// Validators
+// Validation patterns
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\+?\d{10,15}$/;
 
+// Employee routes
 router.post('/add-employee', async (req, res) => {
-  const {
-    firstName,
-    middleName,
-    lastName,
-    dateOfBirth,
-    nationalId,
-    email,
-    phoneNumber,
-    password,
-    confirmPassword,
-    role
-  } = req.body;
+  const requiredFields = [
+    'firstName', 'lastName', 'dateOfBirth',
+    'nationalId', 'email', 'phoneNumber',
+    'password', 'role'
+  ];
 
-  // Validate required fields
-  if (!firstName || !lastName || !dateOfBirth || !nationalId || !email || !phoneNumber || !password || !confirmPassword || !role) {
-    return res.status(400).json({ message: 'All required fields must be filled.' });
-  }
-
-  // Validate password match
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: 'Passwords do not match.' });
-  }
-
-  // Validate password length
-  if (password.length < 8) {
-    return res.status(400).json({ message: 'Password must be at least 8 characters.' });
-  }
-
-  // Validate email format
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Invalid email format.' });
-  }
-
-  // Validate phone format
-  if (!phoneRegex.test(phoneNumber)) {
-    return res.status(400).json({ message: 'Invalid phone number format.' });
+  const missingFields = requiredFields.filter(field => !req.body[field]);
+  if (missingFields.length > 0) {
+    return res.status(400).json({
+      success: false,
+      message: `Missing required fields: ${missingFields.join(', ')}`
+    });
   }
 
   try {
-    // Check if email exists in either Employee or Client tables
-    const [existingEmployee, existingClient] = await Promise.all([
-      prisma.employee.findFirst({
-        where: { email },
-        select: { id: true }
-      }),
-      prisma.client.findFirst({
-        where: { email },
-        select: { id: true }
-      })
-    ]);
+    const existingEmployee = await prisma.employee.findFirst({
+      where: {
+        OR: [
+          { email: req.body.email },
+          { nationalId: req.body.nationalId }
+        ]
+      }
+    });
 
-    if (existingEmployee || existingClient) {
-      // Only one response will be sent here
-      return res.status(409).json({ 
-        message: 'Email already in use.',
-        existsIn: existingEmployee ? 'employee' : 'client'
+    if (existingEmployee) {
+      return res.status(409).json({
+        success: false,
+        message: existingEmployee.email === req.body.email
+          ? 'Email already in use'
+          : 'National ID already in use'
       });
     }
 
-    // Check if national ID already exists
-    const existingNationalId = await prisma.employee.findFirst({
-      where: { nationalId },
-      select: { id: true }
-    });
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    if (existingNationalId) {
-      // Only one response will be sent here
-      return res.status(409).json({ message: 'National ID already in use.' });
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-
-    // Create new employee
     const newEmployee = await prisma.employee.create({
       data: {
-        firstName,
-        middleName,
-        lastName,
-        dateOfBirth: new Date(dateOfBirth),
-        nationalId,
-        email,
-        phoneNumber,
+        firstName: req.body.firstName,
+        middleName: req.body.middleName,
+        lastName: req.body.lastName,
+        dateOfBirth: new Date(req.body.dateOfBirth),
+        nationalId: req.body.nationalId,
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber,
         password: hashedPassword,
-        role,
+        role: req.body.role
       },
       select: {
         id: true,
         firstName: true,
         lastName: true,
         email: true,
-        phoneNumber: true,
         role: true,
-        createdAt: true,
-      },
+        createdAt: true
+      }
     });
 
-    // Only one response will be sent here
-    return res.status(201).json({ 
-      message: 'Employee registered successfully.', 
-      employee: newEmployee 
+    return res.status(201).json({
+      success: true,
+      message: 'Employee created successfully',
+      data: newEmployee
     });
 
   } catch (error) {
-    console.error('Employee creation error:', error);
-    // Only one response will be sent here
-    return res.status(500).json({ message: 'Internal server error.' });
+    console.error('Error in /add-employee:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error while creating employee'
+    });
   }
 });
 
 
-// ✅ Employee Login
+
+
+// Employee Login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
     if (!email || !password) {
-      return res.status(400).json({ message: 'Email and password are required.' });
+      return res.status(400).json({
+        success: false,
+        message: 'Email and password are required'
+      });
     }
 
     const employee = await prisma.employee.findUnique({ where: { email } });
 
     if (!employee) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
     }
 
     const isMatch = await bcrypt.compare(password, employee.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials.' });
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
     }
 
     const token = jwt.sign(
@@ -159,24 +133,28 @@ router.post('/login', async (req, res) => {
     );
 
     res.status(200).json({
-      message: 'Login successful.',
+      success: true,
+      message: 'Login successful',
       token,
       user: {
         id: employee.id,
-        email: employee.email,
-        role: employee.role,
         firstName: employee.firstName,
         lastName: employee.lastName,
-      },
+        email: employee.email,
+        role: employee.role
+      }
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
   }
 });
 
-// ✅ Get all employees (Protected)
-router.get('/fetch-all', async (_req, res) => {
+// Get all employees
+router.get('/fetch-all', jwtMiddleware, async (req, res) => {
   try {
     const employees = await prisma.employee.findMany({
       select: {
@@ -188,181 +166,45 @@ router.get('/fetch-all', async (_req, res) => {
         role: true,
         createdAt: true,
       },
+      orderBy: {
+        createdAt: 'desc'
+      }
     });
-    res.status(200).json(employees);
+
+    res.status(200).json({
+      success: true,
+      message: 'Employees fetched successfully',
+      data: employees
+    });
   } catch (error) {
     console.error('Fetch employees error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch employees'
+    });
   }
 });
 
-// ✅ Get employee by ID (Protected)
-router.get('/:id', jwtMiddleware, async (req, res) => {
+// Delete employee
+router.delete('/:id', jwtMiddleware, async (req, res) => {
   const { id } = req.params;
 
   try {
-    const employee = await prisma.employee.findUnique({
-      where: { id },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        phoneNumber: true,
-        role: true,
-        createdAt: true,
-      },
+    await prisma.employee.delete({
+      where: { id }
     });
 
-    if (!employee) {
-      return res.status(404).json({ message: 'Employee not found.' });
-    }
-
-    res.status(200).json(employee);
-  } catch (error) {
-    console.error('Get employee by ID error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
-
-// ✅ Delete employee by ID (Protected)
-router.delete('/delete/:id',jwtMiddleware, async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const exists = await prisma.employee.findUnique({ where: { id } });
-
-    if (!exists) {
-      return res.status(404).json({ message: 'Employee not found.' });
-    }
-
-    await prisma.employee.delete({ where: { id } });
-    res.status(200).json({ message: 'Employee deleted successfully.' });
+    res.status(200).json({
+      success: true,
+      message: 'Employee deleted successfully'
+    });
   } catch (error) {
     console.error('Delete employee error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
-
-// ✅ Delete all employees (Protected)
-router.delete('/', jwtMiddleware, async (_req, res) => {
-  try {
-    await prisma.employee.deleteMany();
-    res.status(200).json({ message: 'All employees deleted successfully.' });
-  } catch (error) {
-    console.error('Delete all employees error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
-  }
-});
-
-
-
-
-
-
-router.put('/update-agent', jwtMiddleware, async (req, res) => {
-  const employeeId = req.userId;
-  console.log('Employee ID from JWT:', employeeId);
-
-  const {
-    firstName,
-    middleName,
-    lastName,
-    email,
-    phoneNumber,
-    nationalId,
-    currentPassword,
-    newPassword
-  } = req.body;
-
-  try {
-    const existingEmployee = await prisma.employee.findUnique({
-      where: { id: employeeId }
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete employee'
     });
-
-    if (!existingEmployee) {
-      return res.status(404).json({ message: 'Employee not found.' });
-    }
-
-    const updateData = {};
-
-    if (firstName) updateData.firstName = firstName;
-    if (middleName !== undefined) updateData.middleName = middleName;
-    if (lastName) updateData.lastName = lastName;
-    if (phoneNumber) updateData.phoneNumber = phoneNumber;
-
-    if (nationalId && nationalId !== existingEmployee.nationalId) {
-      const nationalIdExists = await prisma.employee.findUnique({
-        where: { nationalId },
-        select: { id: true }
-      });
-
-      if (nationalIdExists) {
-        return res.status(400).json({ message: 'National ID already in use.' });
-      }
-
-      updateData.nationalId = nationalId;
-    }
-
-    if (email && email !== existingEmployee.email) {
-      const emailExists = await prisma.employee.findUnique({
-        where: { email },
-        select: { id: true }
-      });
-
-      if (emailExists) {
-        return res.status(400).json({ message: 'Email already in use.' });
-      }
-
-      updateData.email = email;
-    }
-
-    if (newPassword) {
-      if (!currentPassword) {
-        return res.status(400).json({ message: 'Current password is required to change password.' });
-      }
-
-      const passwordValid = await bcrypt.compare(currentPassword, existingEmployee.password);
-      if (!passwordValid) {
-        return res.status(401).json({ message: 'Current password is incorrect.' });
-      }
-
-      updateData.password = await bcrypt.hash(newPassword, SALT_ROUNDS);
-    }
-
-    if (Object.keys(updateData).length > 0) {
-      const updatedEmployee = await prisma.employee.update({
-        where: { id: employeeId },
-        data: updateData,
-        select: {
-          id: true,
-          firstName: true,
-          middleName: true,
-          lastName: true,
-          email: true,
-          phoneNumber: true,
-          nationalId: true,
-          role: true,
-          createdAt: true,
-          updatedAt: true
-        }
-      });
-
-      return res.status(200).json({
-        message: 'Employee information updated successfully.',
-        employee: updatedEmployee
-      });
-    }
-
-    return res.status(200).json({ message: 'No changes detected.' });
-
-  } catch (error) {
-    console.error('Update employee error:', error);
-    res.status(500).json({ message: 'Internal server error.' });
   }
 });
-
-
-
 
 export default router;

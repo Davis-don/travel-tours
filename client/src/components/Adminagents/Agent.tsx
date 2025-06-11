@@ -15,6 +15,8 @@ interface Employee {
   phoneNumber: string;
   email: string;
   role: string;
+  dateOfBirth: string;
+  nationalId: string;
   createdAt: string;
 }
 
@@ -22,25 +24,25 @@ interface NewAgent {
   firstName: string;
   middleName?: string;
   lastName: string;
-  dateOfBirth: string;
-  nationalId: string;
   email: string;
   phoneNumber: string;
   password: string;
-  confirmPassword: string;
   role: 'agent' | 'senior-agent' | 'team-lead' | 'admin';
+  dateOfBirth: string;
+  nationalId: string;
 }
 
 interface ApiResponse {
   message: string;
   success: boolean;
   data?: Employee[];
-  error?: string;
+  token?: string;
+  user?: any;
 }
 
 const Agents: React.FC = () => {
   const token = useAuthStore((state) => state.token);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const queryClient = useQueryClient();
@@ -68,15 +70,16 @@ const Agents: React.FC = () => {
         throw error;
       }
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes (replaced cacheTime in v5)
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
     refetchInterval: 2000,
+    enabled: !!token,
   });
 
   const deleteEmployeeMutation = useMutation<ApiResponse, AxiosError<ApiResponse>, string>({
     mutationFn: async (id: string) => {
       setDeletingId(id);
-      const response = await axios.delete<ApiResponse>(`${apiUrl}/employee/delete/${id}`, {
+      const response = await axios.delete<ApiResponse>(`${apiUrl}/employee/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: token,
@@ -98,7 +101,7 @@ const Agents: React.FC = () => {
     }
   });
 
- const handleAddAgent = async (newAgent: NewAgent): Promise<void> => {
+const handleAddAgent = async (newAgent: NewAgent): Promise<void> => {
   try {
     const response = await axios.post<ApiResponse>(
       `${apiUrl}/employee/add-employee`,
@@ -116,140 +119,113 @@ const Agents: React.FC = () => {
       setShowModal(false);
       toast.success(response.data.message || 'Employee added successfully');
     } else {
-      throw new Error(response.data.message || 'Failed to add employee');
+      toast.error(response.data.message || 'Failed to add employee');
     }
   } catch (error) {
-    const axiosError = error as AxiosError<ApiResponse>;
-    const errorMessage = axiosError.response?.data?.message || axiosError.message;
-    toast.error(errorMessage || 'Failed to add employee');
+    if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data?.message || error.message;
+      toast.error(errorMessage || 'Failed to add employee');
+    } else {
+      toast.error('Failed to add employee');
+    }
+
+    // Don't throw again — just handle it here
+    // throw error; <-- REMOVE THIS LINE
   }
 };
 
 
-  const handleDelete = (id: string) => {
-    setDeleteConfirmId(id);
-  };
-
-  const confirmDelete = (id: string) => {
-    deleteEmployeeMutation.mutate(id);
-  };
-
-  const cancelDelete = () => {
-    setDeleteConfirmId(null);
-  };
+  const handleDelete = (id: string) => setDeleteConfirmId(id);
+  const confirmDelete = (id: string) => deleteEmployeeMutation.mutate(id);
+  const cancelDelete = () => setDeleteConfirmId(null);
 
   if (isLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+      <div className="loading-spinner">
+        <FaSpinner className="spinner-icon" />
+        <span>Loading employees...</span>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="alert alert-danger">
-        Error fetching employee data. Please try again later.
+      <div className="error-message">
+        Failed to load employees. Please try again.
       </div>
     );
   }
 
   return (
-    <div className="agents">
+    <div className="agents-container">
       <Toaster richColors position="top-center" />
-      <div className="card">
-        <div className="card-header d-flex justify-content-between align-items-center">
-          <h3 className="card-title mb-0">Travel Agents</h3>
-          <button 
-            className="btn btn-primary d-flex align-items-center"
-            onClick={() => setShowModal(true)}
-          >
-            <FaUserPlus className="me-2" />
-            Add New Agent
-          </button>
-        </div>
+      <div className="agents-header">
+        <h2>Employee Management</h2>
+        <button 
+          className="add-employee-btn"
+          onClick={() => setShowModal(true)}
+        >
+          <FaUserPlus /> Add Employee
+        </button>
+      </div>
 
-        <div className="card-body">
-          {employees.length === 0 ? (
-            <div className="text-center py-4">
-              <h5>No employees found</h5>
-              <p>Click the button above to add a new employee</p>
-            </div>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-hover">
-                <thead>
-                  <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {employees.map((employee: Employee) => (
-                    <tr key={employee.id}>
-                      <td>{employee.firstName}</td>
-                      <td>{employee.lastName}</td>
-                      <td>{employee.phoneNumber}</td>
-                      <td>{employee.email}</td>
-                      <td>
-                        <span className={`badge ${
-                          employee.role === 'admin' ? 'bg-danger' :
-                          employee.role === 'team-lead' ? 'bg-warning text-dark' :
-                          employee.role === 'senior-agent' ? 'bg-info' : 'bg-primary'
-                        }`}>
-                          {employee.role}
-                        </span>
-                      </td>
-                      <td>
-                        {deleteConfirmId === employee.id ? (
-                          <div className="d-flex gap-2">
-                            <button
-                              className="btn btn-sm btn-danger"
-                              onClick={() => confirmDelete(employee.id)}
-                              disabled={deletingId === employee.id}
-                            >
-                              Confirm
-                            </button>
-                            <button
-                              className="btn btn-sm btn-secondary"
-                              onClick={cancelDelete}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            className="btn btn-sm btn-outline-danger d-flex align-items-center"
-                            onClick={() => handleDelete(employee.id)}
-                            disabled={deletingId === employee.id}
-                          >
-                            {deletingId === employee.id ? (
-                              <>
-                                <FaSpinner className="me-1 fa-spin" />
-                                Deleting...
-                              </>
-                            ) : (
-                              <>
-                                <FaTrash className="me-1" />
-                                Delete
-                              </>
-                            )}
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+      <div className="employees-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee.id}>
+                <td>{employee.firstName} {employee.middleName ? `${employee.middleName} ` : ''}{employee.lastName}</td>
+                <td>{employee.email}</td>
+                <td>{employee.phoneNumber}</td>
+                <td>
+                  <span className={`role-badge ${employee.role.toLowerCase()}`}>
+                    {employee.role}
+                  </span>
+                </td>
+                <td>
+                  {deleteConfirmId === employee.id ? (
+                    <div className="action-buttons">
+                      <button
+                        className="confirm-btn"
+                        onClick={() => confirmDelete(employee.id)}
+                        disabled={deletingId === employee.id}
+                      >
+                        Confirm
+                      </button>
+                      <button
+                        className="cancel-btn"
+                        onClick={cancelDelete}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDelete(employee.id)}
+                      disabled={deletingId === employee.id}
+                    >
+                      {deletingId === employee.id ? (
+                        <FaSpinner className="spinner" />
+                      ) : (
+                        <FaTrash />
+                      )}
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {showModal && (
