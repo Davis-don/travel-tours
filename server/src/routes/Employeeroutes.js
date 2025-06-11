@@ -16,7 +16,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^\+?\d{10,15}$/;
 
-router.post('/add-employee', async (req, res) => {
+router.post('/add-employee',jwtMiddleware, async (req, res) => {
   const {
     firstName,
     middleName,
