@@ -176,7 +176,7 @@ router.post('/login', async (req, res) => {
 });
 
 // ✅ Get all employees (Protected)
-router.get('/fetch-all',jwtMiddleware, async (_req, res) => {
+router.get('/fetch-all', async (_req, res) => {
   try {
     const employees = await prisma.employee.findMany({
       select: {
