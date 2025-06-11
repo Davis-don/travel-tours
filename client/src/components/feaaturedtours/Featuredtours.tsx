@@ -180,7 +180,7 @@ const tours = [
                     </div>
                   </div>
                   <button 
-                    className="btn btn-primary tour-button fs-4"
+                    className="btn btn-primary tour-button"
                     onClick={() => handleViewDetails(tour)}
                   >
                     View Details

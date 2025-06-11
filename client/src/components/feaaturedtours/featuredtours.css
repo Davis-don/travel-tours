@@ -97,7 +97,7 @@
 .star {
   color: #ffd700;
   margin-right: 2px;
-  font-size: 4rem;
+  font-size: 1.5rem;
 }
 
 .star.half-filled {
@@ -120,7 +120,7 @@
 }
 
 .tour-title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 15px;
   color: #222;
@@ -152,7 +152,7 @@
   border-color: #003f5c;
   font-weight: 600;
   transition: all 0.3s;
-  font-size: 1.6rem !important;
+  font-size: 1rem !important;
 }
 
 .tour-button:hover {
