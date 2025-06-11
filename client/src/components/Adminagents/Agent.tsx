@@ -4,7 +4,7 @@ import './agent.css';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { FaTrash, FaUserPlus, FaSpinner } from 'react-icons/fa';
-
+import { useAuthStore } from '../../Store/useauthstore';
 
 interface Employee {
   id: string;
@@ -35,26 +35,35 @@ interface ApiResponse {
 }
 
 const Agents: React.FC = () => {
+    const token = useAuthStore((state) => state.token);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const apiUrl = import.meta.env.VITE_travel;
+  
 
-  const { data: employees, isLoading, isError } = useQuery<Employee[]>({
-    queryKey: ['employees'],
-    queryFn: async () => {
-      try {
-        const response = await axios.get<Employee[]>(`${apiUrl}/employee/fetch-all`);
-        return response.data;
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
-        console.error(axiosError.response?.data?.message || 'Failed to fetch employees');
-        throw error;
-      }
-    },
-    refetchInterval: 2000,
-  });
+const { data: employees, isLoading, isError } = useQuery<Employee[]>({
+  queryKey: ['employees'],
+  queryFn: async () => {
+    try {
+     
+      const response = await axios.get<Employee[]>(`${apiUrl}/employee/fetch-all`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      console.error(axiosError.response?.data?.message || 'Failed to fetch employees');
+      throw error;
+    }
+  },
+  refetchInterval: 2000,
+});
+
 
   const deleteEmployeeMutation = useMutation({
     mutationFn: async (id: string) => {
