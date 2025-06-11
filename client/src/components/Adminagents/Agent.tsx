@@ -65,33 +65,52 @@ const { data: employees, isLoading, isError } = useQuery<Employee[]>({
 });
 
 
-  const deleteEmployeeMutation = useMutation({
-    mutationFn: async (id: string) => {
-      setDeletingId(id);
-      await axios.delete<ApiResponse>(`${apiUrl}/employee/delete/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
-    },
-    onError: (error: AxiosError<ApiResponse>) => {
-      console.error(error.response?.data?.message || 'Failed to delete employee');
-    },
-    onSettled: () => {
-      setDeletingId(null);
-      setDeleteConfirmId(null);
-    }
-  });
+const deleteEmployeeMutation = useMutation({
+  mutationFn: async (id: string) => {
+    setDeletingId(id);
+  
+    await axios.delete<ApiResponse>(`${apiUrl}/employee/delete/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['employees'] });
+  },
+  onError: (error: AxiosError<ApiResponse>) => {
+    console.error(error.response?.data?.message || 'Failed to delete employee');
+  },
+  onSettled: () => {
+    setDeletingId(null);
+    setDeleteConfirmId(null);
+  }
+});
 
-  const handleAddAgent = async (newAgent: NewAgent) => {
-    try {
-      await axios.post<ApiResponse>(`${apiUrl}/employee/add-employee`, newAgent);
-      queryClient.invalidateQueries({ queryKey: ['employees'] });
-      setShowModal(false);
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      console.error(axiosError.response?.data?.message || 'Failed to add agent');
-    }
-  };
+
+const handleAddAgent = async (newAgent: NewAgent) => {
+  try {
+  
+    await axios.post<ApiResponse>(
+      `${apiUrl}/employee/add-employee`,
+      newAgent,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      }
+    );
+
+    queryClient.invalidateQueries({ queryKey: ['employees'] });
+    setShowModal(false);
+  } catch (error) {
+    const axiosError = error as AxiosError<ApiResponse>;
+    console.error(axiosError.response?.data?.message || 'Failed to add agent');
+  }
+};
+
 
   const handleDelete = (id: string) => {
     setDeleteConfirmId(id);

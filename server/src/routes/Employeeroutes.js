@@ -176,7 +176,7 @@ router.post('/login', async (req, res) => {
 });
 
 // ✅ Get all employees (Protected)
-router.get('/fetch-all', async (_req, res) => {
+router.get('/fetch-all',jwtMiddleware, async (_req, res) => {
   try {
     const employees = await prisma.employee.findMany({
       select: {
@@ -226,7 +226,7 @@ router.get('/:id', jwtMiddleware, async (req, res) => {
 });
 
 // ✅ Delete employee by ID (Protected)
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id',jwtMiddleware, async (req, res) => {
   const { id } = req.params;
 
   try {
