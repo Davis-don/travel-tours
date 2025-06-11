@@ -37,8 +37,8 @@ function Services() {
         {services.map((service, index) => (
           <div className="service-card" key={index}>
             {service.icon}
-            <h3 className="service-name">{service.name}</h3>
-            <p className="service-description">{service.description}</p>
+            <h3 className="service-name-h">{service.name}</h3>
+            <p className="service-description-h">{service.description}</p>
           </div>
         ))}
       </div>

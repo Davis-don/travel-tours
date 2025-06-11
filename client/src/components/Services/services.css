@@ -159,3 +159,11 @@ font-size: 4rem;
   .service-card:nth-child(3) { animation-delay: 0.3s; }
   .service-card:nth-child(4) { animation-delay: 0.4s; }
   .service-card:nth-child(5) { animation-delay: 0.5s; }
+
+
+  .service-name-h{
+  font-size: 2rem;
+  }
+  .service-description-h{
+    font-size: 1.5rem;
+  }
